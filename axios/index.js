@@ -6,6 +6,8 @@ const axiosInstnace = axios.create({
     baseURL:baseApiURL
 });
 
-axiosInstnace.defaults.headers['authorization'] = `Bearer ${localStorage.getItem('nehe-ecommerce-app-jwt-token')}`;
+if(typeof window != 'undefined'){
+    axiosInstnace.defaults.headers['authorization'] = `Bearer ${localStorage.getItem('nehe-ecommerce-app-jwt-token')}`;
+}
 
 export default axiosInstnace;
