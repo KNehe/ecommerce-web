@@ -1,0 +1,38 @@
+.product_list_card{
+    background-color: #E0E0E0;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3), -1px -1px 4px  rgba(0,0,0,.2);
+
+    img{
+        width: 100%;
+        height: 80%;
+        display: block;
+    }
+    .content{
+        height: 20%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 .2em; 
+        p{                  
+          font-size: .9em;
+        }
+        p:first-of-type{
+            font-weight: 700; 
+        }
+    }
+   
+}
+
+@media screen and (max-width: 768px){
+
+    .product_list_card{
+        .content{
+            p{                  
+              font-size: .8em;
+            }
+        }
+       
+    }
+    
+
+}
