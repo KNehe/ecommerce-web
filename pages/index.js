@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ProductCard from '../components/product_card/product_card'
 import { getCategories } from '../external_api/categories/index'
 import Category from '../components/category/category'
+import Pagination from '../components/pagination/pagination'
 
 export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
@@ -20,6 +21,8 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
   });
 
   const [ currentCategoryIndex , setCurrentCategoryIndex] = useState(0)
+
+  const [ currentPageIndex , setcurrentPageIndex] = useState(1)
 
   useEffect(()=>{
     setApiData({
@@ -61,6 +64,26 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
        click={(event) =>onCategoryClickedHandler(index,event)}
       />
   );
+
+  const onPageIndicatorClickedHandler = (index,event)=>{
+    
+    event.preventDefault();
+
+    setcurrentPageIndex(index);
+  }
+
+  let paginationIndicatorList = [];
+  
+  for(let i = 0; i<apiData.pages;i++){
+    
+    const pageIndicator = <Pagination 
+     pageNumber={i + 1}
+     currentIndex={currentPageIndex}
+     pageIndex={i + 1}
+     click={(event)=>onPageIndicatorClickedHandler(i+1,event)}/>
+
+    paginationIndicatorList.push( pageIndicator)
+  }
  
   return (
     <Layout title='Product list'>
@@ -85,9 +108,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
         </section>
 
         <section className={styles.pagination_section}>
-          <p className={styles.pagination_active}>1</p>
-          <p className={styles.pagination}>2</p>
-          <p className={styles.pagination}>3</p>
+         {paginationIndicatorList}
         </section>
 
       </section>
