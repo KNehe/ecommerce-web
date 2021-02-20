@@ -5,25 +5,29 @@ import styles from './../styles/Index.module.scss'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ProductCard from '../components/product_card/product_card'
+import { getCategories } from '../external_api/categories/index'
+import Category from '../components/category/category'
 
-export default function Home({data,error}) {
+export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
   const [apiData, setApiData] = useState({
     products: [],
+    categories: [],
     currentPage:'',
     pages:'',
-    error
-  })
+    fetchProductError: '',
+    fetchCategoryError: '',
+  });
 
   useEffect(()=>{
-  
-   setApiData({
+    setApiData({
      products: data.products,
+     categories: categories.categories,
      currentPage: data.currentPage,
      pages: data.pages,
-     error: data.error
-   });
-
+     fetchProductError,
+     fetchCategoryError
+   });  
   },[])
 
 
@@ -37,7 +41,14 @@ export default function Home({data,error}) {
     />
 
     );
-
+  
+    const catergoryList = apiData.categories.map(el=>
+      <Category
+       key={el._id}
+       category={el.category}
+      />
+      );
+ 
   return (
     <Layout title='Product list'>
       
@@ -53,22 +64,7 @@ export default function Home({data,error}) {
         </section>
 
         <section className={styles.category_list}>
-          <article className={styles.category_active}>all</article>
-          <article className={styles.category}>Phones</article>
-          <article className={styles.category}>Shoes</article>
-          <article className={styles.category}>Down</article>
-          <article className={styles.category}>Phones</article>
-          <article className={styles.category}>Shoes</article>
-          <article className={styles.category}>Down</article>
-          <article className={styles.category}>Phones</article>
-          <article className={styles.category}>Shoes</article>
-          <article className={styles.category}>Down</article>
-          <article className={styles.category}>Phones</article>
-          <article className={styles.category}>Shoes</article>
-          <article className={styles.category}>Down</article>
-          <article className={styles.category}>Phones</article>
-          <article className={styles.category}>Shoes</article>
-          <article className={styles.category}>Down</article>
+          {catergoryList}
         </section>
 
         <section className={styles.product_list}>
@@ -89,11 +85,22 @@ export default function Home({data,error}) {
 }
 
 export async  function getServerSideProps (context){
-  let error;
-  const {data,errorMessage} = await getProducts(1,20);
-  error = errorMessage? errorMessage :null;
+  let fetchProductError, fetchCategoryError;
+  
+  const [firstResult, secondResult]= await Promise.all([
+     getProducts(1,20),
+     getCategories()
+  ]);
+
+  const {data,errorMessage} = firstResult;
+
+  const {categories,errorMsg} = secondResult;
+
+  fetchProductError = errorMessage? errorMessage :null;
+
+  fetchCategoryError = errorMsg? errorMsg: null;
 
   return{
-    props:{data,error}
+    props:{data,fetchProductError,fetchCategoryError,categories}
   }
 }

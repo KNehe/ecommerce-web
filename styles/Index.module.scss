@@ -58,22 +58,6 @@ $fitty_pixels: 50px;
         &::-webkit-scrollbar{
             display: none;
         }
-        .category_common{
-            border-radius: $fitty_pixels;
-            margin-right: .4em;
-            text-transform: capitalize;
-            padding: .5em;
-            @extend .lighter_shadow;            
-        }
-        .category{
-            background-color: $light_gray;
-            @extend .category_common;
-        }
-        .category_active{
-            background-color: rgba(0,0,0,.6);
-            color: #fff;
-            @extend .category_common;
-        }
     }
 
     .product_list{
