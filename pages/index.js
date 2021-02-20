@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getProducts} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
@@ -6,13 +6,37 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ProductCard from '../components/product_card/product_card'
 
-export default function Home() {
+export default function Home({data,error}) {
 
-  useEffect(async()=>{
-    const {data,errorMessage} = await getProducts(1,9);
-    console.log(data)
-    
+  const [apiData, setApiData] = useState({
+    products: [],
+    currentPage:'',
+    pages:'',
+    error
   })
+
+  useEffect(()=>{
+  
+   setApiData({
+     products: data.products,
+     currentPage: data.currentPage,
+     pages: data.pages,
+     error: data.error
+   });
+
+  },[])
+
+
+  const productList = apiData.products.map(product=>
+
+    <ProductCard
+      key={product._id}
+      imageUrl={product.imageUrl}
+      name={product.name}
+      price={product.price}
+    />
+
+    );
 
   return (
     <Layout title='Product list'>
@@ -48,12 +72,7 @@ export default function Home() {
         </section>
 
         <section className={styles.product_list}>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
+          {productList}
         </section>
 
         <section className={styles.pagination_section}>
@@ -67,4 +86,14 @@ export default function Home() {
     </Layout>
       
   )
+}
+
+export async  function getServerSideProps (context){
+  let error;
+  const {data,errorMessage} = await getProducts(1,20);
+  error = errorMessage? errorMessage :null;
+
+  return{
+    props:{data,error}
+  }
 }

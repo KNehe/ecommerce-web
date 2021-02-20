@@ -1,12 +1,12 @@
 import styles from '../../styles/ProductCard.module.scss'
 
-const ProductCard = ()=>{
+const ProductCard = ({imageUrl,name,price})=>{
     return(
         <article className={styles.product_list_card}>
-            <img src='images/sneakers.png' alt='product image'/>
+            <img src={imageUrl} alt='product image'/>
             <div className={styles.content}>
-              <p>Item name</p>
-              <p>Item price</p>
+              <p>{name}</p>
+              <p>{price}</p>
             </div>
           </article>
     )
