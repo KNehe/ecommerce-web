@@ -65,7 +65,9 @@ $fitty_pixels: 50px;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
         gap: 1em;
-        text-transform: capitalize; 
+        text-transform: capitalize;
+        grid-auto-rows: minmax(auto,1fr);
+ 
     }
     .pagination_section{
         margin-top: 2em;
