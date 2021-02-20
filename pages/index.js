@@ -19,6 +19,8 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
     fetchCategoryError: '',
   });
 
+  const [ currentCategoryIndex , setCurrentCategoryIndex] = useState(0)
+
   useEffect(()=>{
     setApiData({
      products: data.products,
@@ -40,14 +42,25 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
       price={product.price}
     />
 
-    );
+  );
+
+  const onCategoryClickedHandler = (index,event) =>{
+
+    event.preventDefault();
+
+    setCurrentCategoryIndex(index)
+  }
   
-    const catergoryList = apiData.categories.map(el=>
+  
+  const catergoryList = apiData.categories.map((element,index)=>
       <Category
-       key={el._id}
-       category={el.category}
+       key={element._id}
+       category={element.category}
+       elementIndex={index}
+       currentIndex={currentCategoryIndex}
+       click={(event) =>onCategoryClickedHandler(index,event)}
       />
-      );
+  );
  
   return (
     <Layout title='Product list'>

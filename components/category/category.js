@@ -1,7 +1,12 @@
 import styles from '../../styles/Category.module.scss'
 
-const Category = ({category}) =>{
-    return <article className={styles.category_active}>{category}</article>
+const Category = ({category,click, elementIndex, currentIndex}) =>{
+    return <article 
+                className={elementIndex === currentIndex ? styles.category_active : styles.category}
+                onClick={click}
+            >
+            {category}
+            </article>
 }
 
 export default Category;
