@@ -70,7 +70,7 @@ $fitty_pixels: 50px;
  
     }
     .pagination_section{
-        margin-top: 2em;
+        margin: 2em 0;
         display: flex;
         
         .pagination_common{
@@ -81,6 +81,7 @@ $fitty_pixels: 50px;
             place-items: center;
             font-size: .8em;
             margin-right: .2em;
+            cursor: pointer;
             @extend .shadow;
         }
         .pagination{
