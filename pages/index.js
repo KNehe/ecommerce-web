@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getProducts, getProductsByCategory} from '../external_api/products/index'
+import { getProducts, getProductsByCategory, getProductsByNameOrCategory} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -81,8 +81,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
     setIsLoadingProducts(false)
 
-  }
-  
+  }  
   
   const catergoryList = apiData.categories.map((element,index)=>
       <Category
@@ -114,6 +113,35 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
     paginationIndicatorList.push( pageIndicator)
   }
+
+  const searchInputController = async (event) =>{
+
+    event.preventDefault();
+
+    setIsLoadingProducts(true);
+
+    const searchKey = event.target.value.trim();
+
+    let products, error;
+
+    if(searchKey){
+      const { data, errorMessage} = await getProductsByNameOrCategory(searchKey);
+      products = data;
+      error = errorMessage;      
+    }else{
+      const {data, errorMessage} = await getProducts();
+      products = data.products;
+      error = errorMessage;
+    }
+
+    if(!error){
+      setApiData({...apiData,products})
+   }else{
+     //TODO set error
+   }
+
+    setIsLoadingProducts(false);
+  }
  
   return (
     <Layout title='Product list'>
@@ -122,7 +150,13 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
         <section className={styles.search_field}>
           <FontAwesomeIcon icon={faSearch}/>
-          <input type='text' name='search' id='search' placeholder='Search by product name or category'/>
+          <input 
+            type='text' 
+            name='search' 
+            id='search' 
+            placeholder='Search by product name or category'
+            onChange={searchInputController}
+          />
         </section>
 
         <section className={styles.title}>

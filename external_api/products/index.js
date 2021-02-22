@@ -26,4 +26,18 @@ const getProductsByCategory = async (category) =>{
   return {data, errorMessage}
 }
 
-export {getProducts,getProductsByCategory}
+const getProductsByNameOrCategory = async(searchKey) =>{
+  
+  let data, errorMessage;
+
+  try{
+    const response = await axios.get(`/products/search/${searchKey}`);
+    data = response.data.data.result;
+  }catch(error){
+    errorMessage = error;
+  }
+
+  return {data, errorMessage}
+}
+
+export {getProducts,getProductsByCategory, getProductsByNameOrCategory}
