@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getProducts} from '../external_api/products/index'
+import { getProducts, getProductsByCategory} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -8,6 +8,8 @@ import ProductCard from '../components/product_card/product_card'
 import { getCategories } from '../external_api/categories/index'
 import Category from '../components/category/category'
 import Pagination from '../components/pagination/pagination'
+import ProgressIndicator from '../components/progress_indicator/progress_indicator'
+import NoProductsFound from '../components/no_products_found/no_products_found'
 
 export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
@@ -24,7 +26,10 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   const [ currentPageIndex , setcurrentPageIndex] = useState(1)
 
+  const [ isLoadingProducts, setIsLoadingProducts] = useState(true)
+
   useEffect(()=>{
+    setCurrentCategoryIndex(0)
     setApiData({
      products: data.products,
      categories: categories.categories,
@@ -32,7 +37,8 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
      pages: data.pages,
      fetchProductError,
      fetchCategoryError
-   });  
+   }); 
+    setIsLoadingProducts(false) 
   },[])
 
 
@@ -47,11 +53,34 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   );
 
-  const onCategoryClickedHandler = (index,event) =>{
+  const onCategoryClickedHandler = async(index,event) =>{
 
     event.preventDefault();
 
     setCurrentCategoryIndex(index)
+
+    setIsLoadingProducts(true)
+
+    let products, error;
+
+    if(index == 0){
+      const {data, errorMessage} = await getProducts();
+      products = data.products;
+      error = errorMessage;
+    }else{
+      const {data, errorMessage} = await getProductsByCategory(apiData.categories[index].category);
+      products = data.result;
+      error = errorMessage;
+    }
+    
+    if(!error){
+       setApiData({...apiData,products})
+    }else{
+      //TODO set error
+    }
+
+    setIsLoadingProducts(false)
+
   }
   
   
@@ -77,6 +106,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
   for(let i = 0; i<apiData.pages;i++){
     
     const pageIndicator = <Pagination 
+     key={i+1}
      pageNumber={i + 1}
      currentIndex={currentPageIndex}
      pageIndex={i + 1}
@@ -102,15 +132,26 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
         <section className={styles.category_list}>
           {catergoryList}
         </section>
+        
+        { isLoadingProducts ?
+          <ProgressIndicator/>:
+          <>
+            <section className={styles.product_list}>
+              { apiData.products.length === 0 ? 
+                <NoProductsFound/> : productList
+              }
+            </section>
 
-        <section className={styles.product_list}>
-          {productList}
-        </section>
+            <section className={styles.pagination_section}>
+  
+              { apiData.products.length === 0  || apiData.pages === 1 ?
+                '' : paginationIndicatorList
+              }
+            </section>
+          </>
 
-        <section className={styles.pagination_section}>
-         {paginationIndicatorList}
-        </section>
-
+        }
+        
       </section>
 
     </Layout>

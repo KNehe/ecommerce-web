@@ -13,4 +13,17 @@ const getProducts = async (page,limit)=>{
   return {data, errorMessage}
 }
 
-export {getProducts}
+const getProductsByCategory = async (category) =>{
+  let data, errorMessage;
+
+  try{
+    const response = await axios.get(`/products/search/category/${category}`);
+    data = response.data.data;
+  }catch(error){
+    errorMessage = error;
+  }
+
+  return {data, errorMessage}
+}
+
+export {getProducts,getProductsByCategory}

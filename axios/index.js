@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseApiURL = 'https://nehe-ecommerce-api.herokuapp.com/api/v1/';
+const baseApiURL = 'https://nehe-ecommerce-api.herokuapp.com/api/v1';
 
 const axiosInstnace = axios.create({
     baseURL:baseApiURL

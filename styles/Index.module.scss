@@ -47,6 +47,7 @@ $fitty_pixels: 50px;
         flex-wrap: nowrap;
         -webkit-overflow-scrolling: touch;
         padding: .5em 0;
+        position: relative;
         &::-webkit-scrollbar{
             display: none;
         }
