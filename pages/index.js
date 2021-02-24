@@ -206,7 +206,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
   )
 }
 
-export async  function getServerSideProps (context){
+export async  function getStaticProps (){
   let fetchProductError, fetchCategoryError;
   
   const [firstResult, secondResult]= await Promise.all([
