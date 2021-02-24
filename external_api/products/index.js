@@ -40,4 +40,33 @@ const getProductsByNameOrCategory = async(searchKey) =>{
   return {data, errorMessage}
 }
 
-export {getProducts,getProductsByCategory, getProductsByNameOrCategory}
+const getProductsWithoutPaginaton = async () =>{
+  let data, errorMessage;
+
+  try{
+    const response = await axios.get(`/products/`);
+    data = response.data.data;
+  }catch(error){
+    errorMessage = error;
+  }
+
+  return {data, errorMessage}
+}
+
+const getOneProduct = async (id) =>{
+  let data, errorMessage;
+
+  try{
+    const response = await axios.get(`/products/${id}`);
+    data = response.data.data;
+  }catch(error){
+    errorMessage = error;
+  }
+
+  return {data, errorMessage}
+}
+
+export {getProducts,getProductsByCategory,
+        getProductsByNameOrCategory, getProductsWithoutPaginaton,
+        getOneProduct
+      }

@@ -10,6 +10,7 @@ import Category from '../components/category/category'
 import Pagination from '../components/pagination/pagination'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import NoProductsFound from '../components/no_products_found/no_products_found'
+import { useRouter } from 'next/router'
 
 export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
@@ -27,6 +28,8 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
   const [ currentPageIndex , setcurrentPageIndex] = useState(1)
 
   const [ isLoadingProducts, setIsLoadingProducts] = useState(true)
+
+  const router = useRouter();
 
   useEffect(()=>{
     setCurrentCategoryIndex(0)
@@ -49,6 +52,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
       imageUrl={product.imageUrl}
       name={product.name}
       price={product.price}
+      click={(event) => onProductListCardClickedHandler(event, product._id)}
     />
 
   );
@@ -141,6 +145,15 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
    }
 
     setIsLoadingProducts(false);
+  }
+   
+  const onProductListCardClickedHandler = async(event,id) =>{
+
+    event.preventDefault();
+    setIsLoadingProducts(true)
+    await router.push(`products/${id}`)
+    //setIsLoadingProducts(false)
+    
   }
  
   return (

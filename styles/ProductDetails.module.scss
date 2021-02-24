@@ -1,0 +1,118 @@
+$fifty_pixels: 50px;
+.left-right_padding{
+    padding: 0 .3em;
+}
+
+.product_details{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    box-shadow: .5px .5px 10px rgba($color: #000000, $alpha: .2);
+    
+    .img{
+        height: 50vh;
+        img{
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    }
+
+    .name_price{
+        margin-top: 1em;
+        display: flex;
+        justify-content: space-between;
+        @extend .left-right_padding;
+        
+        h1:first-of-type{
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.2em;
+        }    
+    }
+    
+    .buttons{
+        margin-top: 1em;
+        @extend .left-right_padding;
+        
+        .line{
+            border: 2px solid #EDECED;
+        }
+        .line_above{
+            @extend .line;
+            margin-bottom: .4em;
+        }
+        .line_below{
+            @extend .line;
+            margin-top: .4em;
+        }
+        
+        .btn_group{
+            display: flex;
+            justify-content: space-between;
+            background-color: #EDECED;
+            padding: .5em 0;
+            .increment_btns{
+                display: flex;
+                align-items: center;
+            }
+            .btn{
+                background-color: #FFE0BD;
+                border-radius: $fifty_pixels;
+                font-size: 1.5em;
+                height: 25px;
+                width: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 900;
+                text-align: center;
+                color: red;
+                padding-bottom: 3px;
+                cursor: pointer;
+            }
+            .increment_btns div:first-of-type{
+                @extend .btn
+            }
+            .increment_btns div:last-of-type{
+                @extend .btn
+            }
+            .increment_btns > p{
+                padding: 0 .2em;
+            }
+            .add_to_cart_btn{
+                background-color: #F19C0B;
+                padding: .4em;
+                border-radius: $fifty_pixels;
+                color: #fff;
+                text-transform: capitalize;
+                font-weight: 500;
+                width: 80px;
+                text-align: center;
+                cursor: pointer;
+            }
+
+        }
+       
+    }
+
+    .details_section{
+        margin-top: 1em;
+        line-height: 1.8em;
+        text-align: justify;
+        @extend .left-right_padding;
+        h2{
+            margin: 0;
+        }
+        p{
+            padding-top: .5em;
+        }
+    }
+
+}
+
+@media screen and (max-width: 768px){
+    .product_details{
+        width: 80%;
+    }
+}
