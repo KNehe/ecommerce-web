@@ -1,8 +1,32 @@
 import { getOneProduct, getProductsWithoutPaginaton} from '../../external_api/products/index'
 import Layout from '../../components/layout/layout'
 import styles from '../../styles/ProductDetails.module.scss'
+import { useContext } from 'react'
+import { Context } from '../../state/store/store'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART } from '../../state/actions'
 
 const ProductDetails = ({product}) =>{
+
+    const [state,dispatch] = useContext(Context)
+
+    const addToCartHandler = (event,product) =>{
+        
+        event.preventDefault()
+
+        const {cart} = {...state}
+        product.quantity = 1;
+        
+        if(!cart.includes(product)){
+            dispatch({type: ADD_ITEM_TO_CART, payload: product})
+            // move to shopping cart
+        }else{
+            // dispatch({type: REMOVE_ITEM_FROM_CART, payload: product})
+            // console.log('removed')
+            //move to shopping cart
+        }        
+    
+    }
+    
 
     return (
         <Layout title='Product details'>
@@ -23,7 +47,12 @@ const ProductDetails = ({product}) =>{
                                 <p>1</p>
                                 <div  className={styles.btn_plus}>+</div>
                             </div>
-                            <div className={styles.add_to_cart_btn}>Add</div>
+                            <div 
+                                className={styles.add_to_cart_btn}
+                                onClick={(event)=> addToCartHandler(event,product)}
+                            >
+                                Add
+                            </div>
                         </div>
                         <div className={styles.line_below}></div>
                     </div>

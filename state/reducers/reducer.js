@@ -1,4 +1,4 @@
-import { ADD_ITEM_TO_CART} from '../actions'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART} from '../actions'
 
 const Reducer = (state,action) =>{
     switch (action.type) {
@@ -6,7 +6,14 @@ const Reducer = (state,action) =>{
             return {
                 ...state,
                 cart: state.cart.concat(action.payload)
-            }         
+            }
+        case REMOVE_ITEM_FROM_CART:
+            return {
+                ...state,
+                cart: state.cart.filter(product=>{
+                    return product._id != action.payload._id
+                } )
+            }      
         default:
             return state
     }
