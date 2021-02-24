@@ -31,6 +31,8 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   const router = useRouter();
 
+  const [isLoadingNextPage , setIsLoadingNextPage] = useState(false);
+
   useEffect(()=>{
     setCurrentCategoryIndex(0)
     setApiData({
@@ -150,16 +152,15 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
   const onProductListCardClickedHandler = async(event,id) =>{
 
     event.preventDefault();
-    setIsLoadingProducts(true)
+    setIsLoadingNextPage(true)
     await router.push(`products/${id}`)
-    //setIsLoadingProducts(false)
     
   }
  
   return (
     <Layout title='Product list'>
-      
-      <section className={styles.main}>
+      { !isLoadingNextPage ?
+        <section className={styles.main}>
 
         <section className={styles.search_field}>
           <FontAwesomeIcon icon={faSearch}/>
@@ -200,7 +201,9 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
         }
         
       </section>
-
+       : 
+       <ProgressIndicator/>
+      }
     </Layout>
       
   )
