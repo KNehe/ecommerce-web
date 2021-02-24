@@ -1,7 +1,17 @@
+import Store from '../state/store/store'
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import App from "next/app";
+
+class NeheEcommerceApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
+    return (
+      <Store>
+        <Component {...pageProps} />
+      </Store>
+    );
+  }
 }
 
-export default MyApp
+export default NeheEcommerceApp;
