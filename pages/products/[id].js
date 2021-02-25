@@ -3,30 +3,103 @@ import Layout from '../../components/layout/layout'
 import styles from '../../styles/ProductDetails.module.scss'
 import { useContext } from 'react'
 import { Context } from '../../state/store/store'
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART } from '../../state/actions'
+import { ADD_ITEM_TO_CART } from '../../state/actions'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const ProductDetails = ({product}) =>{
 
     const [state,dispatch] = useContext(Context)
 
-    const addToCartHandler = (event,product) =>{
+    const [currentProduct, setCurrentProduct] = useState({})
+
+    useEffect(()=>{
+        //if the item is in the cart
+        // probably the user has already changed the quantity
+        //hence get it from the cart and set it as the current item
+        // else it's new and it's quantity is 1 by default
+        if(isProductInCart(product)){
+            const foundItem = getItemInCart(product)
+            setCurrentProduct({...foundItem})            
+        }else{
+            setCurrentProduct({...product, quantity: 1})
+        }
+    },[])
+
+    const addToCartHandler = event =>{
         
         event.preventDefault()
 
-        const {cart} = {...state}
-        product.quantity = 1;
-        
-        if(!cart.includes(product)){
-            dispatch({type: ADD_ITEM_TO_CART, payload: product})
+        if(!isProductInCart(currentProduct)){
+            dispatch({type: ADD_ITEM_TO_CART, payload: currentProduct})
             // move to shopping cart
         }else{
             // dispatch({type: REMOVE_ITEM_FROM_CART, payload: product})
             // console.log('removed')
             //move to shopping cart
-        }        
-    
+        }     
     }
-    
+
+    const onIncrementButtonClickedHandler = event =>{  
+        
+        event.preventDefault()
+        
+        if(isProductInCart(currentProduct)){
+            state.cart.forEach(e=>{
+                if(e._id === currentProduct._id){
+                    e.quantity ++
+                    setCurrentProduct({...e})
+                }
+            })
+        }else{
+            setCurrentProduct({...currentProduct,quantity : currentProduct.quantity + 1})
+        }
+    }
+
+    const onDecrementButtonClickedHandler = event =>{   
+
+        event.preventDefault()
+        
+        if(isProductInCart(currentProduct)){
+            state.cart.forEach(e=>{
+                if(e._id === currentProduct._id){
+                    if(!isQuantityLessThan2(e.quantity)){
+                        e.quantity --
+                        setCurrentProduct({...e})
+                    }                   
+                }
+            })
+        }else{
+            if(!isQuantityLessThan2(currentProduct.quantity)){
+                setCurrentProduct({...currentProduct,quantity : currentProduct.quantity - 1})
+            }
+        }
+    }
+
+    const isProductInCart = (product) =>{
+        let found = false
+        state.cart.forEach(element => {
+            if(element._id === product._id){
+                found = true
+            }
+        });
+        return found;
+    }
+
+    const getItemInCart = (product) =>{
+        let cartitem;
+
+        state.cart.forEach(item => {
+            if(item._id === product._id){
+                cartitem = item
+            }
+        });
+        return cartitem;
+    }
+
+    const isQuantityLessThan2 = (quantity) =>{
+        return quantity < 2
+    }
 
     return (
         <Layout title='Product details'>
@@ -43,13 +116,21 @@ const ProductDetails = ({product}) =>{
                         <div className={styles.line_above}></div>
                         <div className={styles.btn_group}>
                             <div className={styles.increment_btns}>
-                                <div className={styles.btn_minus}>-</div>
-                                <p>1</p>
-                                <div  className={styles.btn_plus}>+</div>
+                                <div 
+                                    className={styles.btn_minus}
+                                    onClick={onDecrementButtonClickedHandler}
+                                >-
+                                </div>
+                                <p>{currentProduct.quantity}</p>
+                                <div  
+                                    className={styles.btn_plus}
+                                    onClick={ onIncrementButtonClickedHandler }
+                                >+
+                                </div>
                             </div>
                             <div 
                                 className={styles.add_to_cart_btn}
-                                onClick={(event)=> addToCartHandler(event,product)}
+                                onClick={addToCartHandler}
                             >
                                 Add
                             </div>
