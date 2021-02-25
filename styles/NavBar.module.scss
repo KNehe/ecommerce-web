@@ -1,0 +1,52 @@
+$raduis: 5px;
+
+.navbar{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    box-shadow: 0 2px 3px rgba(0,0,0,.2), -1px -1px 0px  rgba(0,0,0,0);
+    margin-bottom: 2em;
+    padding: 1em;
+    border-bottom-left-radius: $raduis;
+    border-bottom-right-radius: $raduis;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .cart_icon_group{
+        position: relative;
+        cursor: pointer;
+        svg{
+            width: 1.7em;
+            color: rgb(206, 149, 42);
+        }
+        .cart_count{
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgb(250, 15, 15);
+            border-radius: 20px;
+            font-size: 11px;
+            height: 1.4em;
+            width: 1.4em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color:#fff;
+            font-weight: 700;
+            padding: .5em;
+            transition: 1s all ease;
+        }
+    }
+}
+.navbar > p {
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+
+@media screen and (max-width: 768px){
+    .navbar{
+        width: 90%;
+    }   
+
+}

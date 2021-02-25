@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getProducts, getProductsByCategory, getProductsByNameOrCategory} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
@@ -11,6 +11,8 @@ import Pagination from '../components/pagination/pagination'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import NoProductsFound from '../components/no_products_found/no_products_found'
 import { useRouter } from 'next/router'
+import { Context } from '../state/store/store'
+import { SET_NAVBAR_TITLE } from '../state/actions'
 
 export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
@@ -33,7 +35,12 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   const [isLoadingNextPage , setIsLoadingNextPage] = useState(false);
 
+  const [_,dispatch] = useContext(Context)
+
   useEffect(()=>{
+
+    dispatch({type: SET_NAVBAR_TITLE, payload: 'Store'})
+
     setCurrentCategoryIndex(0)
     setApiData({
      products: data.products,
@@ -152,9 +159,10 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
   const onProductListCardClickedHandler = async(event,id) =>{
 
     event.preventDefault();
+
+    dispatch({type: SET_NAVBAR_TITLE, payload: 'Product details'})
     setIsLoadingNextPage(true)
-    await router.push(`products/${id}`)
-    
+    await router.push(`products/${id}`)    
   }
  
   return (

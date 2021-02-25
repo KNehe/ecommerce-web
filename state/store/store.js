@@ -6,7 +6,8 @@ export const Context = createContext()
 const Store = ({children}) =>{
 
     const initialState = {
-        cart:[]
+        cart:[],
+        navBarTitle: ''
     }
 
     const [state,dispatch] = useReducer(Reducer,initialState)

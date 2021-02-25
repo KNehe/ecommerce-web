@@ -3,7 +3,7 @@ import Layout from '../../components/layout/layout'
 import styles from '../../styles/ProductDetails.module.scss'
 import { useContext } from 'react'
 import { Context } from '../../state/store/store'
-import { ADD_ITEM_TO_CART,REMOVE_ITEM_FROM_CART } from '../../state/actions'
+import { ADD_ITEM_TO_CART,REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../../state/actions'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
@@ -14,6 +14,7 @@ const ProductDetails = ({product}) =>{
     const [currentProduct, setCurrentProduct] = useState({})
 
     useEffect(()=>{
+
         //if the item is in the cart
         // probably the user has already changed the quantity
         //hence get it from the cart and set it as the current item

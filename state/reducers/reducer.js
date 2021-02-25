@@ -1,4 +1,4 @@
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART} from '../actions'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE} from '../actions'
 
 const Reducer = (state,action) =>{
     switch (action.type) {
@@ -13,7 +13,12 @@ const Reducer = (state,action) =>{
                 cart: state.cart.filter(product=>{
                     return product._id != action.payload._id
                 } )
-            }      
+            }
+        case SET_NAVBAR_TITLE:
+            return {
+                ...state,
+                navBarTitle: action.payload
+            }    
         default:
             return state
     }

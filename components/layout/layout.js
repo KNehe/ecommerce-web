@@ -1,9 +1,7 @@
 import Head from 'next/head'
-import { useContext } from 'react';
-import { Context } from '../../state/store/store';
+import NavBar from '../navbar/navbar'
 
 const Layout = ({children, title})=>{
-    const [state,_] = useContext(Context)
 return(
     <div>
         <Head>
@@ -11,7 +9,7 @@ return(
             <link rel="icon" href="/favicon.ico" />
        </Head>
 
-        <nav>nav {state.cart.length}</nav>
+       <NavBar/>
 
         {children}
     </div>
