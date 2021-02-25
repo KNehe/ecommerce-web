@@ -15,6 +15,8 @@ const ProductDetails = ({product}) =>{
 
     useEffect(()=>{
 
+        dispatch({type: SET_NAVBAR_TITLE, payload: 'Product details'})
+
         //if the item is in the cart
         // probably the user has already changed the quantity
         //hence get it from the cart and set it as the current item
