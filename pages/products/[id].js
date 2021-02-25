@@ -3,7 +3,7 @@ import Layout from '../../components/layout/layout'
 import styles from '../../styles/ProductDetails.module.scss'
 import { useContext } from 'react'
 import { Context } from '../../state/store/store'
-import { ADD_ITEM_TO_CART } from '../../state/actions'
+import { ADD_ITEM_TO_CART,REMOVE_ITEM_FROM_CART } from '../../state/actions'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
@@ -26,18 +26,16 @@ const ProductDetails = ({product}) =>{
         }
     },[])
 
-    const addToCartHandler = event =>{
+    const addOrRemoveFromCartHandler = event =>{
         
         event.preventDefault()
 
         if(!isProductInCart(currentProduct)){
             dispatch({type: ADD_ITEM_TO_CART, payload: currentProduct})
-            // move to shopping cart
         }else{
-            // dispatch({type: REMOVE_ITEM_FROM_CART, payload: product})
-            // console.log('removed')
-            //move to shopping cart
-        }     
+             dispatch({type: REMOVE_ITEM_FROM_CART, payload: currentProduct})
+             setCurrentProduct({...product, quantity: 1})
+        }
     }
 
     const onIncrementButtonClickedHandler = event =>{  
@@ -130,9 +128,9 @@ const ProductDetails = ({product}) =>{
                             </div>
                             <div 
                                 className={styles.add_to_cart_btn}
-                                onClick={addToCartHandler}
+                                onClick={addOrRemoveFromCartHandler}
                             >
-                                Add
+                                { isProductInCart(currentProduct) ? 'Remove' : 'Add'}
                             </div>
                         </div>
                         <div className={styles.line_below}></div>
