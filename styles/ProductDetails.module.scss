@@ -55,7 +55,7 @@ $fifty_pixels: 50px;
             display: flex;
             justify-content: space-between;
             background-color: #EDECED;
-            padding: .5em 0;
+            padding: .5em .2em;
             .increment_btns{
                 display: flex;
                 align-items: center;
@@ -72,10 +72,12 @@ $fifty_pixels: 50px;
                 font-weight: 900;
                 text-align: center;
                 color: red;
-                padding-bottom: 3px;
                 cursor: pointer;
                 user-select: none;
                 @include S.btn_transition(background-color);
+                svg{
+                    width: .5em;
+                }
             }
             .increment_btns div:first-of-type{
                 @extend .btn

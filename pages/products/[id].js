@@ -6,6 +6,8 @@ import { Context } from '../../state/store/store'
 import { ADD_ITEM_TO_CART,REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../../state/actions'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const ProductDetails = ({product}) =>{
 
@@ -120,13 +122,15 @@ const ProductDetails = ({product}) =>{
                                 <div 
                                     className={styles.btn_minus}
                                     onClick={onDecrementButtonClickedHandler}
-                                >-
+                                >
+                                    <FontAwesomeIcon icon={faMinus}/>
                                 </div>
                                 <p>{currentProduct.quantity}</p>
                                 <div  
                                     className={styles.btn_plus}
                                     onClick={ onIncrementButtonClickedHandler }
-                                >+
+                                >
+                                    <FontAwesomeIcon icon={faPlus}/>
                                 </div>
                             </div>
                             <div 
