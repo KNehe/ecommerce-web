@@ -1,5 +1,6 @@
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import CartItem from '../components/cart_item/cart_item';
 import Layout from '../components/layout/layout'
@@ -61,19 +62,36 @@ const ShoppingCart  = () =>{
         />
     )
 
+    const reducer = (accumulator, item) => {
+        return accumulator + item.price;
+      };
+
     return (
         <Layout title='Shopping cart'>
             <section className={styles.shopping_cart}>
-                <h1>Continue shopping</h1>
+                <Link href='/'>
+                    <h1>Continue shopping</h1>
+                </Link>
+            
                 <div className={styles.line}></div>
                 {cartItems}  
-                <div className={styles.checkout_btn_sec}>
-                    <p>Sub total: <span className={styles.sub_total}>$ 100</span></p>
-                    <div>
-                        <p>Checkout</p>
-                         <FontAwesomeIcon icon={faArrowRight} /> 
+                { cart.length != 0 ?
+                    <div className={styles.checkout_btn_sec}>
+                        <p>Sub total: 
+                            <span className={styles.sub_total}>
+                                $ {cart.reduce(reducer,0) }
+                            </span>
+                        </p>
+                            <div>
+                                <p>Checkout</p>
+                                <FontAwesomeIcon icon={faArrowRight} /> 
+                            </div>
+                    </div>:
+                    <div style={{display:'grid' ,placeItems:'center', marginTop:'25vh'}}>
+                        No items in cart
                     </div>
-                </div>            
+                } 
+               
             </section>
         </Layout>    
     )
