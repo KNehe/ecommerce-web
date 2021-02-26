@@ -1,3 +1,5 @@
+@use './Shared';
+
 .item{
     display: flex;
     justify-content: space-between;
@@ -35,23 +37,34 @@
                     justify-content: center;
                     font-size: 1.3em;
                     color: red ;
+                    cursor: pointer;                    
                     svg{
                         width: .5em;
                     }
+                }
+                div:hover{
+                    background-color: Shared.$btn_increase_and_decrease_hover_bgcolor;
+                    @include Shared.btn_transition(background-color);
                 }
                 p{
                     margin: 0 1em;
                 }
             }                
         }
+        //remove button
         .btn_group > div:last-of-type{
             margin-top: 1.5em;
-            background-color: #FF9800;
+            background-color: Shared.$btn-orange_bgcolor;
             color: #fff;
             border-radius: 25px;
             text-align: center;
             padding: .3em 0; 
             font-size: .9em;
+            @include Shared.btn_transition(background-color);
+            cursor: pointer;
+        }
+        .btn_group > div:last-of-type:hover{
+            background-color: Shared.$btn_orange_hover_bgcolor;
         }
     }
 }

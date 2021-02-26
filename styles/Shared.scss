@@ -1,0 +1,9 @@
+@mixin btn_transition($element){
+    transition: $element .4s ease-in;
+}
+
+$btn_increase_and_decrease_hover_bgcolor: #f0c27e;
+
+$btn_orange_hover_bgcolor: #c57b0c;
+
+$btn-orange_bgcolor: #F19C0B;

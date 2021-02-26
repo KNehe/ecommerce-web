@@ -1,3 +1,5 @@
+@use './Shared.scss' as S;
+
 $fifty_pixels: 50px;
 .left-right_padding{
     padding: 0 .3em;
@@ -9,6 +11,7 @@ $fifty_pixels: 50px;
     width: 50%;
     box-shadow: .5px .5px 10px rgba($color: #000000, $alpha: .2);
     margin-bottom: 1em;
+    user-select: none;
     
     .img{
         height: 50vh;
@@ -72,6 +75,7 @@ $fifty_pixels: 50px;
                 padding-bottom: 3px;
                 cursor: pointer;
                 user-select: none;
+                @include S.btn_transition(background-color);
             }
             .increment_btns div:first-of-type{
                 @extend .btn
@@ -82,8 +86,11 @@ $fifty_pixels: 50px;
             .increment_btns > p{
                 padding: 0 .2em;
             }
+            .increment_btns div:hover{
+                background-color: S.$btn_increase_and_decrease_hover_bgcolor;
+            }
             .add_to_cart_btn{
-                background-color: #F19C0B;
+                background-color: S.$btn-orange_bgcolor;
                 padding: .4em;
                 border-radius: $fifty_pixels;
                 color: #fff;
@@ -93,6 +100,10 @@ $fifty_pixels: 50px;
                 text-align: center;
                 cursor: pointer;
                 user-select: none;
+            }
+            .add_to_cart_btn:hover{
+                background-color: S.$btn_orange_hover_bgcolor;
+                @include S.btn_transition(background-color);
             }
 
         }
