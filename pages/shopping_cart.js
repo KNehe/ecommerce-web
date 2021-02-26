@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect } from 'react';
 import CartItem from '../components/cart_item/cart_item';
 import Layout from '../components/layout/layout'
-import { SET_NAVBAR_TITLE } from '../state/actions';
+import { REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../state/actions';
 import { Context } from '../state/store/store';
 import styles from '../styles/ShoppingCart.module.scss'
 
@@ -17,13 +17,47 @@ const ShoppingCart  = () =>{
 
     const { cart } = {...state}
 
+    const onMinusIconClickedHandler =(event, product) =>{
+        
+        event.preventDefault()
+
+        cart.forEach(e=>{
+            if(e._id === product._id){
+                if( !(e.quantity < 2) ){
+                    e.quantity --
+                    dispatch({type: '', payload: ''})
+                }
+            }
+        })
+
+    }
+
+    const onPlusIconClickedHandler = (event,product) =>{
+        
+       event.preventDefault()
+
+        cart.forEach(e=>{
+            if(e._id === product._id){
+                e.quantity ++
+                dispatch({type: '', payload: ''})
+            }
+        })
+    }
+    
+    const onRemoveBtnClickedHandler =(event,product) =>{
+        
+        event.preventDefault();
+
+        dispatch({type: REMOVE_ITEM_FROM_CART, payload: product})
+    }
+
     const cartItems = cart.map(item=>
         <CartItem
             key={item._id}
-            name={item.name}
-            imageUrl={item.imageUrl}
-            quantity={item.quantity}
-            price={item.price}
+            product={item}
+            onMinusIconClicked={onMinusIconClickedHandler}
+            onPlusIconClicked={onPlusIconClickedHandler}
+            onRemoveBtnClicked={onRemoveBtnClickedHandler}
         />
     )
 

@@ -1,6 +1,7 @@
 import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE} from '../actions'
 
 const Reducer = (state,action) =>{
+
     switch (action.type) {
         case ADD_ITEM_TO_CART:
             return {
@@ -20,7 +21,7 @@ const Reducer = (state,action) =>{
                 navBarTitle: action.payload
             }    
         default:
-            return state
+            return {...state}
     }
 }
 
