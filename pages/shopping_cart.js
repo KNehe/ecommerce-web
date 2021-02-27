@@ -82,10 +82,12 @@ const ShoppingCart  = () =>{
                                 $ {cart.reduce(reducer,0) }
                             </span>
                         </p>
-                            <div>
+                        <Link href='/shipping_details'>
+                            <div> 
                                 <p>Checkout</p>
                                 <FontAwesomeIcon icon={faArrowRight} /> 
                             </div>
+                        </Link>
                     </div>:
                     <div style={{display:'grid' ,placeItems:'center', marginTop:'25vh'}}>
                         No items in cart
