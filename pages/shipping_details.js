@@ -5,12 +5,15 @@ import { Context } from '../state/store/store'
 import { SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS } from '../state/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuilding, faCity, faHome, faMailBulk, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
+import { useRouter } from 'next/router'
 
 const ShippingDetails = () =>{
    
     const [state,dispatch] = useContext(Context)
 
     const [errorMessage,setErrorMessage] = useState('')
+
+    const router =  useRouter()
 
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: 'Shipping details'})
@@ -53,6 +56,8 @@ const ShippingDetails = () =>{
         }
 
         dispatch({type: SET_SHIPPING_DETAILS, payload: {...shippingDetails}})
+
+        router.push('/payment_method');
     }
 
     return(   

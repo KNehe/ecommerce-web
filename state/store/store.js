@@ -8,7 +8,8 @@ const Store = ({children}) =>{
     const initialState = {
         cart:[],
         navBarTitle: '',
-        ShippingDetails: {}
+        ShippingDetails: {},
+        userId: null
     }
 
     const [state,dispatch] = useReducer(Reducer,initialState)
