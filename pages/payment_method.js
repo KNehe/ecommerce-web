@@ -36,6 +36,8 @@ const PaymentMethod = () =>{
         event.preventDefault()
 
         setButtonDisableProp({...btnDisabled,paypal:true})
+
+        setError('')
         
         try{
 
@@ -65,11 +67,11 @@ const PaymentMethod = () =>{
                 userId,
                 paymentMethod: PAY_PAL,
                 userType: userId != null ? USER_TYPE_RESGISTERED : USER_TYPE_GUEST,
+                dateOrdered: Date.now(),
                 cartItems: cart
             }
-            console.log(order)
 
-            const { result, errorMsg} = await sendPayPalOrder(order, payload.nonce)
+            const { result, errorMsg} = await sendPayPalOrder( order, payload.nonce)
 
             if(errorMsg){
                 setError(errorMsg)

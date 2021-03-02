@@ -5,7 +5,7 @@ const sendPayPalOrder = async(order,nonce) =>{
     let result, errorMsg;
 
     try{
-      const response = await axios.post(`/cart/braintree/paypalpayment/${nonce}`,{order});
+      const response = await axios.post(`/cart/braintree/paypalpayment/${nonce}`,{...order});
       result = response.data.data;
     }catch(error){
         errorMsg = error.message;

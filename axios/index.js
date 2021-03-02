@@ -4,7 +4,7 @@ const local_api = 'http://localhost:8080/api/v1'
 const baseApiURL = 'https://nehe-ecommerce-api.herokuapp.com/api/v1';
 
 const axiosInstnace = axios.create({
-    baseURL:local_api
+    baseURL:baseApiURL
 });
 
 if(typeof window != 'undefined'){
