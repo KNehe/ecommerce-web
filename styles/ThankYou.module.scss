@@ -1,0 +1,37 @@
+@use './Shared.scss' as S;
+
+.thank_you{
+    margin-left: auto;
+    margin-right: auto;
+    height: 60vh;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p{
+        margin-top: 5em;
+    }    
+    svg{
+        width: 5em;
+    }
+    button{
+        margin-top: 5em;
+        background-color: S.$btn-orange_bgcolor;
+        color: #fff;
+        border: none;
+        width: 15em;
+        padding:  1em 0;
+        border-radius: 10px;
+        @include S.btn_transition(background-color);
+        @include S.light_shadow;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+    button:hover{
+        background-color: S.$btn_orange_hover_bgcolor;
+    }
+    button:focus{
+        outline: none;
+    }
+}

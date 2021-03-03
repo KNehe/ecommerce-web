@@ -1,4 +1,4 @@
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS} from '../actions'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER} from '../actions'
 
 const Reducer = (state,action) =>{
 
@@ -24,6 +24,11 @@ const Reducer = (state,action) =>{
             return{
                 ...state,
                 ShippingDetails: action.payload
+            }
+        case SET_SINGLE_ORDER:
+            return{
+                ...state,
+                singleOrder: action.payload
             }  
         default:
             return {...state}

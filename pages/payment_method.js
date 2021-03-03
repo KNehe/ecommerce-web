@@ -2,9 +2,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Layout from "../components/layout/layout";
 import { Context } from "../state/store/store";
 import braintree from 'braintree-web'
-import { SET_NAVBAR_TITLE } from "../state/actions";
+import { SET_NAVBAR_TITLE, SET_SINGLE_ORDER } from "../state/actions";
 import { getShippingCost, getTax, sendPayPalOrder } from "../external_api/orders";
 import { PAY_PAL, USER_TYPE_GUEST, USER_TYPE_RESGISTERED } from '../consts/index'
+import { useRouter } from 'next/router'
 
 const PaymentMethod = () =>{
     
@@ -15,7 +16,9 @@ const PaymentMethod = () =>{
     const [btnDisabled, setButtonDisableProp ] = useState({
         paypal:false,
         stripe:false
-    }) 
+    })
+    
+    const router = useRouter()
     
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: 'Choose payment method'})
@@ -58,6 +61,13 @@ const PaymentMethod = () =>{
                 displayName: 'NTrade'
             })
             
+            const transformedCart = cart.map(item=>{
+                return {
+                    product: item,
+                    quantity: item.quantity
+                }
+            })
+
             const order = {
                 shippingDetails: ShippingDetails, 
                 shippingCost: shippingCost.toString(),
@@ -68,8 +78,8 @@ const PaymentMethod = () =>{
                 paymentMethod: PAY_PAL,
                 userType: userId != null ? USER_TYPE_RESGISTERED : USER_TYPE_GUEST,
                 dateOrdered: Date.now(),
-                cartItems: cart
-            }
+                cartItems: transformedCart
+            }            
 
             const { result, errorMsg} = await sendPayPalOrder( order, payload.nonce)
 
@@ -78,7 +88,9 @@ const PaymentMethod = () =>{
                 return setButtonDisableProp({...btnDisabled,paypal:false})
             }
 
-            console.log(result)
+            dispatch({type: SET_SINGLE_ORDER, payload: result})
+
+            await router.push('/thank_you')
 
             setButtonDisableProp({...btnDisabled,paypal:false})
 
