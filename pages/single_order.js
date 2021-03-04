@@ -16,12 +16,12 @@ const SingleOrder = () =>{
     let items = [];
 
     for(let i = 0 ; i < singleOrder.cartItems.length; i ++){
-        const item = <>
+        const item = <div key={i}>
             <p>Name: {singleOrder.cartItems[i].product.name}</p>
             <p>Price: ${singleOrder.cartItems[i].product.price}</p>
             <p>Quantity: {singleOrder.cartItems[i].quantity}</p>
             <p className={styles.line}></p>
-        </>
+        </div>
         items.push(item)
     }
 
