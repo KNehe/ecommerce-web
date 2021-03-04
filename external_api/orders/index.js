@@ -25,4 +25,18 @@ const getShippingCost = async () =>{
     return 40;
 }
 
-export {sendPayPalOrder, getTax, getShippingCost}
+const sendStripeOrder = async (stripeId, order) =>{
+    let result, errorMsg;
+
+    try{
+      const response = await axios.post(`/cart/stripe/stripeid/${stripeId}`,{...order});
+      result = response.data.data;
+    }catch(error){
+        errorMsg = error.message;
+    }
+  
+    return {errorMsg,result}
+
+}
+
+export {sendPayPalOrder, getTax, getShippingCost, sendStripeOrder}
