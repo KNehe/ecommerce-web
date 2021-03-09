@@ -1,16 +1,18 @@
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CartItem from '../components/cart_item/cart_item';
 import Layout from '../components/layout/layout'
 import { REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../state/actions';
-import { Context } from '../state/store/store';
 import styles from '../styles/ShoppingCart.module.scss'
 
 const ShoppingCart  = () =>{
 
-    const [state,dispatch] = useContext(Context)
+    const state = useSelector(state => state)
+
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: 'Shopping Cart'})

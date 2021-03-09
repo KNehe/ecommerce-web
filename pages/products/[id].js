@@ -1,17 +1,18 @@
 import { getOneProduct, getProductsWithoutPaginaton} from '../../external_api/products/index'
 import Layout from '../../components/layout/layout'
 import styles from '../../styles/ProductDetails.module.scss'
-import { useContext } from 'react'
-import { Context } from '../../state/store/store'
 import { ADD_ITEM_TO_CART,REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../../state/actions'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ProductDetails = ({product}) =>{
 
-    const [state,dispatch] = useContext(Context)
+    const state =  useSelector(state => state)
+    
+    const dispatch = useDispatch()
 
     const [currentProduct, setCurrentProduct] = useState({})
 

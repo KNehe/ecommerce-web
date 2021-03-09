@@ -1,11 +1,14 @@
-import { useContext, useEffect } from "react"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import Layout from "../components/layout/layout"
 import { SET_NAVBAR_TITLE } from "../state/actions"
-import { Context } from "../state/store/store"
 import styles from '../styles/SingleOrder.module.scss'
 
 const SingleOrder = () =>{
-    const [state, dispatch] =  useContext(Context)
+
+    const state = useSelector(state => state)
+
+    const dispatch = useDispatch()
 
     const { singleOrder } = state
 

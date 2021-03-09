@@ -1,15 +1,15 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Layout from "../components/layout/layout";
 import { SET_NAVBAR_TITLE } from "../state/actions";
-import { Context } from "../state/store/store";
 import styles from '../styles/ThankYou.module.scss'
 
 const ThankYou = () =>{
 
-    const [_, dispatch] = useContext(Context)
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: 'Order successfull'})

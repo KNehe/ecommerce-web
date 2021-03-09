@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/layout/layout";
-import { Context } from "../state/store/store";
 import braintree from 'braintree-web'
 import { SET_NAVBAR_TITLE, SET_SINGLE_ORDER } from "../state/actions";
 import { getShippingCost, getTax, sendPayPalOrder, sendStripeOrder } from "../external_api/orders";
@@ -12,10 +11,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 import ProgressIndicator from './../components/progress_indicator/progress_indicator'
+import { useDispatch, useSelector } from "react-redux";
 
 const PaymentMethod = () =>{
     
-    const [state, dispatch] = useContext(Context)
+    const state = useSelector(state => state)
+
+    const dispatch = useDispatch()
 
     const [error, setError] = useState('')
 
@@ -81,6 +83,8 @@ const PaymentMethod = () =>{
 
         setButtonDisableProp(true)
 
+        setIsSendingOrder(true)
+
         setError('')
         
         try{
@@ -102,7 +106,7 @@ const PaymentMethod = () =>{
             
             const order = createOrderPayload(costs.tax, costs.shippingCost, costs.total, costs.totalItemPrice, PAY_PAL)
             
-            setIsSendingOrder(true)
+            
 
             const { result, errorMsg} = await sendPayPalOrder( order, payload.nonce)
 
@@ -120,7 +124,7 @@ const PaymentMethod = () =>{
 
         }catch(error){
             console.error("Error", error)
-            setIsSendingOrder(true)
+            setIsSendingOrder(false)
             if(error.code === 'PAYPAL_POPUP_CLOSED'){
                 setError("Process cancelled")
                 return setButtonDisableProp(false)
@@ -134,9 +138,13 @@ const PaymentMethod = () =>{
 
     const onStripeFormSubmittedHandler = async event =>{
         event.preventDefault()
+
         setIsSendingOrder(true)
 
+        setButtonDisableProp(true)
+
         setError('')
+
 
     try{
 
@@ -145,12 +153,13 @@ const PaymentMethod = () =>{
            card: elements.getElement(CardElement)
        })
 
+       console.log('payemnt method err: ', error,paymentMethod)
+
        if(!error){
         const { id } = paymentMethod;
         
         const order = createOrderPayload(costs.tax, costs.shippingCost, costs.total, costs.totalItemPrice, STRIPE_PAYMENT)
         
-        setIsSendingOrder(true)
 
         const { errorMsg, result} = await sendStripeOrder(id,order)
 
@@ -169,12 +178,13 @@ const PaymentMethod = () =>{
        }else{
         setButtonDisableProp(false)
         setIsSendingOrder(false)
-        return setError(error.message)
+        return setError( error.message || 'An error occurred')
        }
     }catch(err){
         setButtonDisableProp(false)
         setIsSendingOrder(false)
-        return setError(error.message)
+        console.log("gen err:", err)
+        return setError( err.message || 'An error occurred')
     }
     }
 

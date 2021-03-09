@@ -1,15 +1,15 @@
 import styles from '../styles/ShippingDetails.module.scss'
 import Layout from '../components/layout/layout'
-import { useContext, useEffect, useRef, useState } from 'react'
-import { Context } from '../state/store/store'
+import { useEffect, useRef, useState } from 'react'
 import { SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS } from '../state/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuilding, faCity, faHome, faMailBulk, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 
 const ShippingDetails = () =>{
-   
-    const [state,dispatch] = useContext(Context)
+
+    const dispatch = useDispatch()
 
     const [errorMessage,setErrorMessage] = useState('')
 

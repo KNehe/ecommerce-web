@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getProducts, getProductsByCategory, getProductsByNameOrCategory} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
@@ -11,8 +11,8 @@ import Pagination from '../components/pagination/pagination'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import NoProductsFound from '../components/no_products_found/no_products_found'
 import { useRouter } from 'next/router'
-import { Context } from '../state/store/store'
 import { SET_NAVBAR_TITLE } from '../state/actions'
+import { useDispatch } from 'react-redux'
 
 export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
@@ -35,7 +35,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   const [isLoadingNextPage , setIsLoadingNextPage] = useState(false);
 
-  const [_,dispatch] = useContext(Context)
+  const dispatch = useDispatch()
 
   useEffect(()=>{
 

@@ -1,8 +1,21 @@
+import {createStore} from 'redux'
+import {createWrapper,HYDRATE} from 'next-redux-wrapper'
 import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER} from '../actions'
 
-const Reducer = (state,action) =>{
+const initialState = {
+    cart:[],
+    navBarTitle: '',
+    ShippingDetails: {},
+    userId: null,
+    singleOrder:{}
+}
+
+const reducer = (state={...initialState},action) =>{
 
     switch (action.type) {
+        case HYDRATE:
+            console.log(state, action)
+            return{...state,...action.payload}
         case ADD_ITEM_TO_CART:
             return {
                 ...state,
@@ -35,4 +48,6 @@ const Reducer = (state,action) =>{
     }
 }
 
-export default Reducer;
+const makeStore = context => createStore(reducer)
+
+export const wrapper = createWrapper(makeStore,{debug:true})
