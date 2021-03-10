@@ -12,6 +12,15 @@
     border-top-width: 1px;
 }
 
+.ProgressIndicatorMin{
+    position: relative;
+    border: 2px solid grey;
+    border-radius: 50px;
+    width: 1.5em;
+    height: 1.5em;
+    animation: rotate 1s infinite;
+}
+
 @keyframes rotate{
     from{
         transform: rotate(0deg);

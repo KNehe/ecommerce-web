@@ -7,8 +7,12 @@ const initialState = {
     cart:[],
     navBarTitle: '',
     ShippingDetails: {},
-    userId: null,
-    singleOrder:{}
+    userId: '',
+    singleOrder:{},
+    isLoggedIn: false,
+    jwt: '',
+    email: '',
+    name:''
 }
 
 const reducer = (state={...initialState},action) =>{
@@ -65,7 +69,7 @@ const makeStore = () =>{
 
         const persistConfig = {
             key: 'nextjs',
-            whitelist: ['cart','navBarTitle','ShippingDetails','userId','singleOrder'],
+            whitelist: ['cart','navBarTitle','ShippingDetails','userId','singleOrder','isLoggedIn','jwt','email','name'],
             storage
         }
 
