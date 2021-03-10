@@ -1,0 +1,14 @@
+@use './Shared.scss' as S;
+
+.Modal{
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,50%);
+    @include S.light_shadow;
+    padding: 1em;
+    border-radius: 5px;
+    height: auto;
+    width: auto;
+}
