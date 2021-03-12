@@ -7,34 +7,30 @@ import { SET_NAVBAR_TITLE } from "../../state/actions"
 import styles from '../../styles/Auth.module.scss'
 import Link from 'next/link'
 
-
-const SignIn = ()=>{
+const ForgotPassword = ()=>{
 
     const dispatch = useDispatch()
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Welcome'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: 'Forgot password'})
     },[])
 
     return (
-        <Layout title='Sign in'>
+        <Layout title='Forgot password'>
 
             <section className={styles.main}>
                 <form>
-                    <label for='email'>Email</label>
+                    <label for='email'>Enter email to reset password</label>
                     <input type='email' id='email'/>
-                    <label for='password'>Password</label>
-                    <input type='password' id='password'/>
                     
                     <div className={styles.group1}>
-                        <p>Sign in</p>
+                        <p>Forgot password</p>
                         <button>
                             <FontAwesomeIcon icon={faArrowRight}/>
                         </button>
                     </div>
                     <div className={styles.group2}>
-                        <Link href='/auth/signup'><p>Sign up</p></Link>
-                        <Link href='/auth/forgot_password'><p>Forgot password</p></Link>
+                        <Link href='/auth/signin'><p>Sign in</p></Link>
                     </div>
                 </form>
             </section>
@@ -43,4 +39,4 @@ const SignIn = ()=>{
     )
 }
 
-export default SignIn
+export default ForgotPassword

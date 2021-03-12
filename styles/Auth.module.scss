@@ -11,9 +11,13 @@
         flex-direction: column;
         input{
             border: none;
-            border-bottom: 1px solid  grey;
+            border-bottom: 1px solid  grey;            
+        }
+        input:first-of-type{
+            margin-bottom: 3em;
+        }
+        input:last-of-type{
             margin-bottom: 1em;
-            
         }
         input:focus{
             outline: none;

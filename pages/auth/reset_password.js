@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux"
 import Layout from "../../components/layout/layout"
 import { SET_NAVBAR_TITLE } from "../../state/actions"
 import styles from '../../styles/Auth.module.scss'
-import Link from 'next/link'
 
 
 const SignIn = ()=>{
@@ -13,28 +12,24 @@ const SignIn = ()=>{
     const dispatch = useDispatch()
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Welcome'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: 'Reset password'})
     },[])
 
     return (
-        <Layout title='Sign in'>
+        <Layout title='Reset password'>
 
             <section className={styles.main}>
                 <form>
-                    <label for='email'>Email</label>
-                    <input type='email' id='email'/>
-                    <label for='password'>Password</label>
-                    <input type='password' id='password'/>
+                    <label for='newPassword'>New password</label>
+                    <input type='password' id='newPassword'/>
+                    <label for='oldPassword'>Old password</label>
+                    <input type='password' id='oldPassword'/>
                     
                     <div className={styles.group1}>
-                        <p>Sign in</p>
+                        <p>Reset password</p>
                         <button>
                             <FontAwesomeIcon icon={faArrowRight}/>
                         </button>
-                    </div>
-                    <div className={styles.group2}>
-                        <Link href='/auth/signup'><p>Sign up</p></Link>
-                        <Link href='/auth/forgot_password'><p>Forgot password</p></Link>
                     </div>
                 </form>
             </section>

@@ -7,17 +7,16 @@ import { SET_NAVBAR_TITLE } from "../../state/actions"
 import styles from '../../styles/Auth.module.scss'
 import Link from 'next/link'
 
-
 const SignIn = ()=>{
 
     const dispatch = useDispatch()
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Welcome'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: 'Create account'})
     },[])
 
     return (
-        <Layout title='Sign in'>
+        <Layout title='Sign up'>
 
             <section className={styles.main}>
                 <form>
@@ -27,14 +26,13 @@ const SignIn = ()=>{
                     <input type='password' id='password'/>
                     
                     <div className={styles.group1}>
-                        <p>Sign in</p>
+                        <p>Sign up</p>
                         <button>
                             <FontAwesomeIcon icon={faArrowRight}/>
                         </button>
                     </div>
                     <div className={styles.group2}>
-                        <Link href='/auth/signup'><p>Sign up</p></Link>
-                        <Link href='/auth/forgot_password'><p>Forgot password</p></Link>
+                        <Link href='/auth/signin'><p>Sign in</p></Link> 
                     </div>
                 </form>
             </section>
