@@ -11,13 +11,17 @@ import { ALL_FIELDS_ARE_REQUIRED, INVALID_EMAIL } from "../../consts/errors";
 import { isEmailValid} from '../../utils/validators';
 import { signIn } from "../../external_api/users/index"
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
-
+import { navigate } from "../../utils/navigator_helper";
+import { useRouter } from "next/dist/client/router"
 
 const SignIn = ()=>{
 
     const dispatch = useDispatch()
 
-    const state = useSelector(state =>state)
+    const router = useRouter()
+
+    const currentActivity = useSelector(state => state.currentActivity)
+
     
     useEffect(()=>{
         dispatch({type:SET_NAVBAR_TITLE,payload: 'Welcome'})
@@ -30,11 +34,16 @@ const SignIn = ()=>{
 
     const [isProcessing,setIsProcessing] = useState(false)
 
+    const [isSubmitBtnEnabled, setSubmitBtnEnabledState] = useState(false)
+
+
     const formSubmittedHandler = async (event) =>{
 
         event.preventDefault()
 
         setError('')
+
+        setSubmitBtnEnabledState(true)
 
         const email = emailInputRef.current.value;
         const password = passwordInputRef.current.value
@@ -46,6 +55,8 @@ const SignIn = ()=>{
         const {errorMsg,result} = await signIn(email,password)
 
         if(errorMsg){
+            setIsProcessing(false)
+            setSubmitBtnEnabledState(false)
             return setError(errorMsg)
         }
 
@@ -53,15 +64,19 @@ const SignIn = ()=>{
 
         dispatch({type: SET_ONLY_LOGGED_IN_STATUS, payload: true})
 
+        navigate(currentActivity,router)
+
     }
 
     const validateInput = (email,password) =>{
 
         if(!email?.trim() || !password?.trim()){
+            setSubmitBtnEnabledState(false)
             return setError(ALL_FIELDS_ARE_REQUIRED)
         }
 
         if(!isEmailValid(email)){
+            setSubmitBtnEnabledState(false)
             return setError(INVALID_EMAIL)
         }
     }
@@ -72,14 +87,14 @@ const SignIn = ()=>{
             <section className={styles.main}>
                 <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
                 <form onSubmit={formSubmittedHandler}>
-                    <label for='email'>Email</label>
+                    <label htmlFor='email'>Email</label>
                     <input type='email' id='email' ref={emailInputRef}/>
-                    <label for='password'>Password</label>
+                    <label htmlFor='password'>Password</label>
                     <input type='password' id='password' ref={passwordInputRef}/>
                     
                     <div className={styles.group1}>
                         <p>Sign in</p>
-                        <button type='submit'>
+                        <button type='submit' disabled={isSubmitBtnEnabled}>
                             {isProcessing?
                                 <ProgressIndicator min={true}/>:
                                 <FontAwesomeIcon icon={faArrowRight}/>

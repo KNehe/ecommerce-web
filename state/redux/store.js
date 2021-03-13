@@ -2,7 +2,8 @@ import {createStore, applyMiddleware} from 'redux'
 import {createWrapper,HYDRATE} from 'next-redux-wrapper'
 import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_AUTH_DETAILS, 
     SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER,
-    SET_ONLY_LOGGED_IN_STATUS} from '../actions'
+    SET_ONLY_LOGGED_IN_STATUS,
+    SET_CURRENT_ACTIVITY} from '../actions'
 import logger from 'redux-logger'
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
     isLoggedIn: false,
     jwt: '',
     email: '',
-    name:''
+    name:'',
+    currentActivity:''
 }
 
 const reducer = (state={...initialState},action) =>{
@@ -63,6 +65,11 @@ const reducer = (state={...initialState},action) =>{
                     ...state,
                     isLoggedIn: action.payload
                 }
+        case SET_CURRENT_ACTIVITY:
+            return{
+                ...state,
+                currentActivity: action.payload
+            }        
         default:
             return {...state}
     }
@@ -84,7 +91,7 @@ const makeStore = () =>{
 
         const persistConfig = {
             key: 'nextjs',
-            whitelist: ['cart','navBarTitle','ShippingDetails','userId','singleOrder','isLoggedIn','jwt','email','name'],
+            whitelist: ['cart','navBarTitle','ShippingDetails','userId','singleOrder','isLoggedIn','jwt','email','name','currentActivity'],
             storage
         }
 

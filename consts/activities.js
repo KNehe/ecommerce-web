@@ -1,0 +1,3 @@
+const CHECKING_OUT = 'CHECKING_OUT'
+
+export { CHECKING_OUT }

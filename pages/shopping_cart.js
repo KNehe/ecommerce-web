@@ -8,11 +8,12 @@ import BackDrop from '../components/backdrop/backdrop';
 import CartItem from '../components/cart_item/cart_item';
 import Layout from '../components/layout/layout'
 import Modal from '../components/modal/modal';
-import { REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../state/actions';
+import { REMOVE_ITEM_FROM_CART, SET_CURRENT_ACTIVITY, SET_NAVBAR_TITLE } from '../state/actions';
 import styles from '../styles/ShoppingCart.module.scss'
 import {useRouter} from 'next/router'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import { isJwtValid } from '../external_api/users';
+import { CHECKING_OUT } from '../consts/activities';
 
 const ShoppingCart  = () =>{
 
@@ -117,6 +118,16 @@ const ShoppingCart  = () =>{
         }  
     }
 
+    const onSignBtnClickedHandler = event =>{
+
+        event.preventDefault()
+
+        dispatch({type: SET_CURRENT_ACTIVITY, payload: CHECKING_OUT})
+
+        router.push('/auth/signin')
+
+    }
+
     return (
         <Layout title='Shopping cart'>
             <BackDrop 
@@ -129,9 +140,17 @@ const ShoppingCart  = () =>{
             >
                 <div className={styles.modal_content}>
                     <p>{modalMessage}</p>
-                    <div className={styles.sign_in_btn}>Sign In</div>
+                    <div 
+                        className={styles.sign_in_btn}
+                        onClick={onSignBtnClickedHandler}
+                    >Sign In</div>
                     <p>Or</p>
-                    <div className={styles.sign_up_btn}>Continue as guest</div>
+                    <Link href='/shipping_details'>
+                        <div 
+                            className={styles.sign_up_btn}
+                        >Continue as guest
+                        </div>
+                    </Link>
                 </div>
             </Modal>
 
