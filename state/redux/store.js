@@ -1,6 +1,8 @@
 import {createStore, applyMiddleware} from 'redux'
 import {createWrapper,HYDRATE} from 'next-redux-wrapper'
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER} from '../actions'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_AUTH_DETAILS, 
+    SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER,
+    SET_ONLY_LOGGED_IN_STATUS} from '../actions'
 import logger from 'redux-logger'
 
 const initialState = {
@@ -48,6 +50,19 @@ const reducer = (state={...initialState},action) =>{
                 ...state,
                 singleOrder: action.payload
             }  
+        case SET_AUTH_DETAILS:
+            return{
+                ...state,
+                jwt: action.payload.token,
+                email: action.payload.user.email,
+                name: action.payload.user.name,
+                userId: action.payload.user.id
+            }
+        case SET_ONLY_LOGGED_IN_STATUS:
+            return{
+                    ...state,
+                    isLoggedIn: action.payload
+                }
         default:
             return {...state}
     }

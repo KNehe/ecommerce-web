@@ -1,4 +1,5 @@
 import axios from '../../axios/index'
+import { getAxiosErrorMessage } from '../../utils/object_property_pickers';
 
 const isJwtValid  = async ( jwt ) =>{
   
@@ -8,6 +9,22 @@ const isJwtValid  = async ( jwt ) =>{
     }catch(error){
       return false
     }
-    }
+}
 
-  export {isJwtValid}
+const signIn = async (email,password) =>{
+  let result, errorMsg;
+  
+  try{
+    const response = await axios.post(`/users/signin`,{email,password});
+    result = response.data.data;
+
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,result}
+
+}
+
+
+  export {isJwtValid,signIn}

@@ -5,6 +5,25 @@
     @include S.light_shadow;
     padding: 1em;
     margin-top: 4em;
+    
+    .error_common{
+        width: 100%;
+        height: 4vh;
+        margin-bottom: 1em;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+    }
+    .error{
+        background-color: rgb(223, 29, 29);
+        @extend .error_common;
+    }
+    .noerror{
+        background-color: white;
+        @extend .error_common;        
+    }
 
     form{
         display: flex;
@@ -21,6 +40,7 @@
         }
         input:focus{
             outline: none;
+            border-bottom: 2px solid grey;
         }
         .group1{
             display: flex;
@@ -39,6 +59,9 @@
                 border: none;
                 transition: background-color .8s;
                 cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             button:focus{
                 outline: none;
