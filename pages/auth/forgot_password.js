@@ -82,13 +82,13 @@ const ForgotPassword = ()=>{
         <Layout title='Forgot password'>
 
             <section className={styles.main}>
+            {successMsg?
+                <div className={styles.success_message}>
+                    <p>{successMsg}</p>
+                </div>:
+           <>
                 <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
-                {successMsg?
-                
-                    <div className={styles.success_message}>
-                        <p>{successMsg}</p>
-                    </div>:
-                    <form onSubmit={formSubmittedHandler}>
+                <form onSubmit={formSubmittedHandler}>
                     <label for='email'>Enter email to reset password</label>
                     <input type='email' id='email' ref={emailInputRef}/>
                     
@@ -105,7 +105,7 @@ const ForgotPassword = ()=>{
                         <Link href='/auth/signin'><p>Sign in</p></Link>
                     </div>
                 </form>
-                
+            </>
                 }
             </section>
 
