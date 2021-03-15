@@ -26,5 +26,20 @@ const signIn = async (email,password) =>{
 
 }
 
+const signUp = async (name,email,password) =>{
+  let result, errorMsg;
+  
+  try{
+    const response = await axios.post(`/users/signup`,{name,email,password});
+    result = response.data.data;
 
-  export {isJwtValid,signIn}
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,result}
+
+}
+
+
+  export {isJwtValid,signIn,signUp}
