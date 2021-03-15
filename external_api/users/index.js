@@ -56,5 +56,20 @@ const forgotPassword = async (email) =>{
 
 }
 
+const resetPassword = async (token,password) =>{
+  let result, errorMsg;
+  
+  try{
+    const response = await axios.post(`/users/resetPassword/${token}`,{password});
+    result = response.data.message;
 
-  export {isJwtValid,signIn,signUp,forgotPassword}
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,result}
+
+}
+
+
+  export {isJwtValid,signIn,signUp,forgotPassword,resetPassword}
