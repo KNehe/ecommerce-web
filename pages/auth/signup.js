@@ -39,13 +39,13 @@ const SignIn = ()=>{
     const validateInput = (name,email,password) =>{
 
         if(!name?.trim() || !email?.trim() || !password?.trim()){
-            setSubmitBtnEnabledState(false)
-            return setError(ALL_FIELDS_ARE_REQUIRED)
+            setError(ALL_FIELDS_ARE_REQUIRED)
+            return false
         }
 
         if(!isEmailValid(email)){
-            setSubmitBtnEnabledState(false)
-            return setError(INVALID_EMAIL)
+            setError(INVALID_EMAIL)
+            return false
         }
     }
 
@@ -61,7 +61,10 @@ const SignIn = ()=>{
         const email = emailInputRef.current.value;
         const password = passwordInputRef.current.value
 
-        validateInput(name,email,password)
+        if(validateInput(email) === false){
+            setSubmitBtnEnabledState(false)
+            return
+        }
 
         setIsProcessing(true)
 
