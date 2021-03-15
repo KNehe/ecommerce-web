@@ -41,5 +41,20 @@ const signUp = async (name,email,password) =>{
 
 }
 
+const forgotPassword = async (email) =>{
+  let result, errorMsg;
+  
+  try{
+    const response = await axios.post(`/users/forgotpassword`,{email});
+    result = response.data.message;
 
-  export {isJwtValid,signIn,signUp}
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,result}
+
+}
+
+
+  export {isJwtValid,signIn,signUp,forgotPassword}
