@@ -61,7 +61,7 @@ const SignIn = ()=>{
         const email = emailInputRef.current.value;
         const password = passwordInputRef.current.value
 
-        if(validateInput(email) === false){
+        if(validateInput(name,email,password) === false){
             setSubmitBtnEnabledState(false)
             return
         }
