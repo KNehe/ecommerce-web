@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../components/layout/layout";
+import { SUCCESS_ORDER } from "../consts/navbar_titles";
 import { SET_NAVBAR_TITLE } from "../state/actions";
 import styles from '../styles/ThankYou.module.scss'
 
@@ -12,7 +13,7 @@ const ThankYou = () =>{
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        dispatch({type: SET_NAVBAR_TITLE, payload: 'Order successfull'})
+        dispatch({type: SET_NAVBAR_TITLE, payload: SUCCESS_ORDER})
     },[])
 
     return <Layout title='Thank you'>

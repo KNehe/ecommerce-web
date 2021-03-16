@@ -12,13 +12,14 @@ import { useRouter } from "next/dist/client/router"
 import { EMAIL_REQUIRED, INVALID_EMAIL } from "../../consts/errors";
 import {forgotPassword  } from "../../external_api/users/index";
 import { isEmailValid} from '../../utils/validators';
+import { FORGOT_PASSWORD } from "../../consts/navbar_titles"
 
 const ForgotPassword = ()=>{
 
     const dispatch = useDispatch()
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Forgot password'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: FORGOT_PASSWORD})
     },[])
 
     

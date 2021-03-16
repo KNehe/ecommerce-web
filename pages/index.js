@@ -13,6 +13,7 @@ import NoProductsFound from '../components/no_products_found/no_products_found'
 import { useRouter } from 'next/router'
 import { SET_NAVBAR_TITLE } from '../state/actions'
 import { useDispatch } from 'react-redux'
+import { STORE } from '../consts/navbar_titles'
 
 export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
 
@@ -39,7 +40,7 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   useEffect(()=>{
 
-    dispatch({type: SET_NAVBAR_TITLE, payload: 'Store'})
+    dispatch({type: SET_NAVBAR_TITLE, payload: STORE})
 
     setCurrentCategoryIndex(0)
     setApiData({

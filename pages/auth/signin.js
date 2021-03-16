@@ -13,6 +13,7 @@ import { signIn } from "../../external_api/users/index"
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
 import { navigate } from "../../utils/navigator_helper";
 import { useRouter } from "next/dist/client/router"
+import { WELCOME } from "../../consts/navbar_titles"
 
 const SignIn = ()=>{
 
@@ -24,7 +25,7 @@ const SignIn = ()=>{
 
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Welcome'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: 'WELCOME'})
     },[])
 
     const [error, setError] = useState('')

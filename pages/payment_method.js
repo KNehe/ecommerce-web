@@ -12,6 +12,7 @@ import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 import ProgressIndicator from './../components/progress_indicator/progress_indicator'
 import { useDispatch, useSelector } from "react-redux";
+import { CHOOSE_PAYMENT_METHOD } from "../consts/navbar_titles";
 
 const PaymentMethod = () =>{
     
@@ -35,7 +36,7 @@ const PaymentMethod = () =>{
         if(cart.length === 0){
             return router.push('/')
         }
-        dispatch({type: SET_NAVBAR_TITLE, payload: 'Choose payment method'})
+        dispatch({type: SET_NAVBAR_TITLE, payload: CHOOSE_PAYMENT_METHOD})
         setCostsAttached()
     },[])
     

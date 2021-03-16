@@ -12,6 +12,7 @@ import {signUp} from '../../external_api/users/index'
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
 import { isEmailValid} from '../../utils/validators';
 import { navigate } from "../../utils/navigator_helper";
+import { CREATE_ACCOUNT } from "../../consts/navbar_titles"
 
 
 const SignIn = ()=>{
@@ -23,7 +24,7 @@ const SignIn = ()=>{
     const currentActivity = useSelector(state => state.currentActivity)
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Create account'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: CREATE_ACCOUNT})
     },[])
 
     const [error, setError] = useState('')

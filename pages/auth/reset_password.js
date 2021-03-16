@@ -11,6 +11,7 @@ import { ALL_FIELDS_ARE_REQUIRED, PASWORDS_DONT_MATCH } from "../../consts/error
 import { resetPassword } from "../../external_api/users"
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
 import Link from 'next/link'
+import { RESET_PASSWORD } from "../../consts/navbar_titles"
 
 const ResetPassword = ({token})=>{
 
@@ -19,7 +20,7 @@ const ResetPassword = ({token})=>{
     const router = useRouter()
     
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'Reset password'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: RESET_PASSWORD})
         
         if(!token){
             router.push('/')

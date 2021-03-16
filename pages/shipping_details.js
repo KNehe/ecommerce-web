@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuilding, faCity, faHome, faMailBulk, faPhone, faUser } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import { SHIPPING_DETAILS } from '../consts/navbar_titles'
 
 const ShippingDetails = () =>{
 
@@ -16,7 +17,7 @@ const ShippingDetails = () =>{
     const router =  useRouter()
 
     useEffect(()=>{
-        dispatch({type: SET_NAVBAR_TITLE, payload: 'Shipping details'})
+        dispatch({type: SET_NAVBAR_TITLE, payload: SHIPPING_DETAILS})
     },[])
 
     const nameInputRef = useRef(null)

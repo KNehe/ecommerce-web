@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
+import { PRODUCT_DETAILS } from '../../consts/navbar_titles'
 
 const ProductDetails = ({product}) =>{
 
@@ -18,7 +19,7 @@ const ProductDetails = ({product}) =>{
 
     useEffect(()=>{
 
-        dispatch({type: SET_NAVBAR_TITLE, payload: 'Product details'})
+        dispatch({type: SET_NAVBAR_TITLE, payload: PRODUCT_DETAILS})
 
         //if the item is in the cart
         // probably the user has already changed the quantity

@@ -14,6 +14,7 @@ import {useRouter} from 'next/router'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import { isJwtValid } from '../external_api/users';
 import { CHECKING_OUT } from '../consts/activities';
+import { SHOPPING_CART } from '../consts/navbar_titles';
 
 const ShoppingCart  = () =>{
 
@@ -22,7 +23,7 @@ const ShoppingCart  = () =>{
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        dispatch({type: SET_NAVBAR_TITLE, payload: 'Shopping Cart'})
+        dispatch({type: SET_NAVBAR_TITLE, payload: SHOPPING_CART})
     },[])
 
     const { cart } = {...state}
