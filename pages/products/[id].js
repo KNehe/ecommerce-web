@@ -9,7 +9,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { PRODUCT_DETAILS } from '../../consts/navbar_titles'
 
-const ProductDetails = ({product}) =>{
+const ProductDetails = ({product,apiError:errorMessage}) =>{
 
     const state =  useSelector(state => state)
     
@@ -20,7 +20,10 @@ const ProductDetails = ({product}) =>{
     useEffect(()=>{
 
         dispatch({type: SET_NAVBAR_TITLE, payload: PRODUCT_DETAILS})
-
+        
+        if(errorMessage){
+            return
+        }
         //if the item is in the cart
         // probably the user has already changed the quantity
         //hence get it from the cart and set it as the current item
@@ -108,6 +111,9 @@ const ProductDetails = ({product}) =>{
 
     return (
         <Layout title='Product details'>
+            {errorMessage ?
+            <div className={styles.error_message}>{errorMessage}</div>:
+
             <article className={styles.product_details}>
                 <div className={styles.img}>
                     <img src={product.imageUrl} alt='Product Image'/>
@@ -150,6 +156,9 @@ const ProductDetails = ({product}) =>{
                     </div>
                     </div>
             </article>
+       
+            }
+           
         </Layout>
     )
 
@@ -170,10 +179,12 @@ export async function getStaticPaths(){
 export async function getStaticProps({ params }){
 
     const {data, errorMessage} = await getOneProduct(params.id)
-    const product = data.product
+    const product = data?.product || null
+    
+    let apiError = errorMessage || null
 
     return {
-        props:{ product }
+        props:{ product,apiError }
     }
 }
 

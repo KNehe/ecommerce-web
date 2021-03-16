@@ -1,4 +1,5 @@
 import axios from '../../axios/index'
+import { getAxiosErrorMessage } from '../../utils/object_property_pickers';
 
 const getCategories = async() =>{
 
@@ -8,7 +9,7 @@ const getCategories = async() =>{
       const response = await axios.get(`/categories/`);
       categories = response.data.data;
     }catch(error){
-        errorMsg = error;
+        errorMsg = getAxiosErrorMessage(error);
     }
   
     return {categories, errorMsg}

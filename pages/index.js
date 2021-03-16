@@ -15,7 +15,7 @@ import { SET_NAVBAR_TITLE } from '../state/actions'
 import { useDispatch } from 'react-redux'
 import { STORE } from '../consts/navbar_titles'
 
-export default function Home({data,categories,fetchProductError,fetchCategoryError}) {
+export default function Home({ productData:data,categoryData:categories,fetchProductError,fetchCategoryError}) {
 
   const [apiData, setApiData] = useState({
     products: [],
@@ -38,7 +38,13 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
 
   const dispatch = useDispatch()
 
+  const [error, setError] = useState('')
+
   useEffect(()=>{
+
+    if(fetchProductError || fetchCategoryError){
+       return setError(fetchCategoryError || fetchProductError)
+    }
 
     dispatch({type: SET_NAVBAR_TITLE, payload: STORE})
 
@@ -168,50 +174,55 @@ export default function Home({data,categories,fetchProductError,fetchCategoryErr
  
   return (
     <Layout title='Product list'>
-      { !isLoadingNextPage ?
-        <section className={styles.main}>
+      {error? 
+        <div className={styles.error_message}>{error}</div>:
+      <>
+        { !isLoadingNextPage ?
+          <section className={styles.main}>
 
-        <section className={styles.search_field}>
-          <FontAwesomeIcon icon={faSearch}/>
-          <input 
-            type='text' 
-            name='search' 
-            id='search' 
-            placeholder='Search by product name or category'
-            onChange={searchInputController}
-          />
+          <section className={styles.search_field}>
+            <FontAwesomeIcon icon={faSearch}/>
+            <input 
+              type='text' 
+              name='search' 
+              id='search' 
+              placeholder='Search by product name or category'
+              onChange={searchInputController}
+            />
+          </section>
+
+          <section className={styles.title}>
+            <h1>Get the best products</h1>
+          </section>
+
+          <section className={styles.category_list}>
+            {catergoryList}
+          </section>
+          
+          { isLoadingProducts ?
+            <ProgressIndicator/>:
+            <>
+              <section className={styles.product_list}>
+                { apiData.products.length === 0 ? 
+                  <NoProductsFound/> : productList
+                }
+              </section>
+
+              <section className={styles.pagination_section}>
+    
+                { apiData.products.length === 0  || apiData.pages === 1 ?
+                  '' : paginationIndicatorList
+                }
+              </section>
+            </>
+
+          }
+          
         </section>
-
-        <section className={styles.title}>
-          <h1>Get the best products</h1>
-        </section>
-
-        <section className={styles.category_list}>
-          {catergoryList}
-        </section>
-        
-        { isLoadingProducts ?
-          <ProgressIndicator/>:
-          <>
-            <section className={styles.product_list}>
-              { apiData.products.length === 0 ? 
-                <NoProductsFound/> : productList
-              }
-            </section>
-
-            <section className={styles.pagination_section}>
-  
-              { apiData.products.length === 0  || apiData.pages === 1 ?
-                '' : paginationIndicatorList
-              }
-            </section>
-          </>
-
+        : 
+        <ProgressIndicator/>
         }
-        
-      </section>
-       : 
-       <ProgressIndicator/>
+        </>
       }
     </Layout>
       
@@ -234,7 +245,10 @@ export async  function getStaticProps (){
 
   fetchCategoryError = errorMsg? errorMsg: null;
 
+  let productData = !data ? null : data
+
+  let categoryData = !categories ? null : categories
   return{
-    props:{data,fetchProductError,fetchCategoryError,categories}
+    props:{productData,fetchProductError,fetchCategoryError,categoryData}
   }
 }

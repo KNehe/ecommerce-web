@@ -1,3 +1,5 @@
+@use './Shared.scss' as S;
+
 $light_gray: #E0E0E0;
 $fifty_percent: 50%;
 $fitty_pixels: 50px;
@@ -67,6 +69,10 @@ $fitty_pixels: 50px;
         display: flex;
     }
 
+}
+
+.error_message{
+    @include S.error_msg;
 }
 
 @media screen and (max-width: 768px){
