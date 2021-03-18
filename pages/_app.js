@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
-import { wrapper } from '../state/redux/store';
+import { wrapper } from '../state/redux/store/store';
 import { useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'

@@ -1,11 +1,10 @@
-import {createStore, applyMiddleware} from 'redux'
-import {createWrapper,HYDRATE} from 'next-redux-wrapper'
 import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_AUTH_DETAILS, 
     SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER,
     SET_ONLY_LOGGED_IN_STATUS,
     SET_CURRENT_ACTIVITY,
-    RESET_CART} from '../actions'
-import logger from 'redux-logger'
+    RESET_CART} from '../../actions'
+
+import {HYDRATE} from 'next-redux-wrapper'
 
 const initialState = {
     cart:[],
@@ -81,33 +80,4 @@ const reducer = (state={...initialState},action) =>{
     }
 }
 
-const makeConfiguredStore = reducer => createStore(reducer,undefined,applyMiddleware(logger))
-
-//const makeStore = context => createStore(reducer)
-
-const makeStore = () =>{
-    
-    const isServer = typeof window === 'undefined'
-
-    if(isServer){
-        return makeConfiguredStore(reducer)
-    }else{
-        const {persistStore,persistReducer} = require('redux-persist')
-        const storage = require('redux-persist/lib/storage').default
-
-        const persistConfig = {
-            key: 'nextjs',
-            whitelist: ['cart','navBarTitle','ShippingDetails','userId','singleOrder','isLoggedIn','jwt','email','name','currentActivity'],
-            storage
-        }
-
-        const persistedReducer = persistReducer(persistConfig,reducer)
-        const store = makeConfiguredStore(persistedReducer)
-
-        store.__persistor = persistStore(store)
-
-        return store
-    }
-}
-
-export const wrapper = createWrapper(makeStore,{debug:true})
+export {reducer}
