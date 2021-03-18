@@ -1,3 +1,5 @@
+@use './Shared.scss' as S;
+
 $raduis: 5px;
 
 .navbar{
@@ -12,30 +14,99 @@ $raduis: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .cart_icon_group{
-        position: relative;
-        cursor: pointer;
-        svg{
-            width: 1.7em;
-            color: rgb(206, 149, 42);
+
+    .left_section{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .cart_icon_group{
+            position: relative;
+            cursor: pointer;
+            display: inline;
+            svg{
+                width: 1.7em;
+                color: rgb(206, 149, 42);
+            }
+            .cart_count{
+                position: absolute;
+                top: 0;
+                right: 0;
+                background-color: rgb(250, 15, 15);
+                border-radius: 20px;
+                font-size: 11px;
+                height: 1.4em;
+                width: 1.4em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color:#fff;
+                font-weight: 700;
+                padding-bottom: .2em;
+              
+            }
         }
-        .cart_count{
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: rgb(250, 15, 15);
-            border-radius: 20px;
-            font-size: 11px;
-            height: 1.4em;
-            width: 1.4em;
+
+        ul{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .drop_down{
+            user-select: none;
+            text-transform: capitalize;
+            position: relative;
+            background-color:  rgb(245, 234, 234);
+            border-radius: 10px; 
+            font-size: .9em;
+            width: 100px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            color:#fff;
-            font-weight: 700;
-            padding-bottom: .2em;
+
+            li > p{
+                border-radius: 5px;
+                color: #000;
+                padding: .3em 0;
+            }
+           li > ul{
+               display: none;
+               position: absolute;
+               width: 100px;
+               left: 0;
+               padding-left:.8em;
+               padding-right: .2em;
+               @include S.light_shadow;
+           }
         }
-    }
+        .drop_down li>ul>li>a{
+           color: #000;
+           display: inline-block;
+           padding: .8em 0;
+           width: 100%;
+        }
+        
+        .drop_down:hover{
+            border-radius: 0%;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px; 
+        }
+        .drop_down li>ul>li>a:hover{
+            font-weight: 500;
+        }
+        .drop_down li > ul{
+            background-color: rgb(245, 234, 234);
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;            
+        }
+    
+        .drop_down:hover li>ul , .drop_down:active li>ul{
+            display: flex;
+            flex-direction: column;
+        }
+  }
+    
+
+   
 }
 .navbar > p {
     font-weight: 700;

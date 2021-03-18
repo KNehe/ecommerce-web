@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import styles from '../../styles/NavBar.module.scss'
 import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
@@ -10,7 +9,7 @@ import { PRODUCT_DETAILS, SHOPPING_CART, STORE } from '../../consts/navbar_title
 
 const NavBar = ()=>{
 
-    const { cart,navBarTitle } = useSelector(state => state)
+    const { cart,navBarTitle,name,isLoggedIn } = useSelector(state => state)
 
     const dispatch =  useDispatch()
 
@@ -22,19 +21,43 @@ const NavBar = ()=>{
                 className={styles.navbar}
             >
                 <p>{navBarTitle}</p>
-                <Link href='/shopping_cart'>
-                    {
-                        navBarTitle === STORE ||
-                        navBarTitle ===  SHOPPING_CART ||
-                        navBarTitle === PRODUCT_DETAILS ?
-                        <div 
-                        className={styles.cart_icon_group} 
-                        onClick={onCartIconClickedHandler} >
-                        <FontAwesomeIcon icon={faShoppingCart}/>
-                        <p className={styles.cart_count}>{cart.length}</p>
-                       </div>: ''
-                    }
-                </Link>
+
+                <section className={styles.left_section}>
+
+                    <ul className={styles.drop_down}>
+                        <li>
+                            {isLoggedIn? <p>{name} </p>: '' }
+                            <ul>
+                                <li>
+                                    <Link href='/user-profile'>
+                                        <a >Profile</a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href='order-history'>
+                                        <a>Order history</a>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <Link href='/shopping_cart'>
+                        {
+                            navBarTitle === STORE ||
+                            navBarTitle ===  SHOPPING_CART ||
+                            navBarTitle === PRODUCT_DETAILS ?
+                            <div 
+                            className={styles.cart_icon_group} 
+                            onClick={onCartIconClickedHandler} >
+                            <FontAwesomeIcon icon={faShoppingCart}/>
+                            <p className={styles.cart_count}>{cart.length}</p>
+                        </div>: ''
+                        }
+                    </Link>
+            
+                </section>
+    
             </nav>
 }
 
