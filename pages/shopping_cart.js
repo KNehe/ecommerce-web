@@ -15,6 +15,7 @@ import ProgressIndicator from '../components/progress_indicator/progress_indicat
 import { isJwtValid } from '../external_api/users';
 import { CHECKING_OUT } from '../consts/activities';
 import { SHOPPING_CART } from '../consts/navbar_titles';
+import { saveCart } from '../external_api/cart';
 
 const ShoppingCart  = () =>{
 
@@ -101,7 +102,7 @@ const ShoppingCart  = () =>{
         setProgressIndicatorVisibility(true)
         setModalMessage('')
 
-        const { isLoggedIn, jwt} = state
+        const { isLoggedIn, jwt, userId} = state
 
         if(!isLoggedIn){
             setProgressIndicatorVisibility(false)
@@ -114,6 +115,11 @@ const ShoppingCart  = () =>{
                 setProgressIndicatorVisibility(false)
                 setModalVisibility(true) 
             }else{
+                if(cart){
+                    for(const item of cart){
+                       await saveCart(item._id,userId,item.quantity,jwt)
+                    }
+                }
                 router.push('shipping_details')
             }
         }  
