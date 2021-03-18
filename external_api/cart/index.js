@@ -37,4 +37,22 @@ const getSavedCart = async (userId,jwt) =>{
 
 }
 
-  export {saveCart,getSavedCart}
+const deleteCart = async (userId,jwt) =>{
+
+  let status, errorMsg;
+    
+  try{
+    axios.defaults.headers['authorization'] = `Bearer ${jwt}`;
+
+    const response = await axios.delete(`/cart/${userId}`);
+    status = response.status;
+
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,status}
+
+}
+
+  export {saveCart,getSavedCart,deleteCart}

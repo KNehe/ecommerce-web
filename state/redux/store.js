@@ -3,7 +3,8 @@ import {createWrapper,HYDRATE} from 'next-redux-wrapper'
 import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_AUTH_DETAILS, 
     SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER,
     SET_ONLY_LOGGED_IN_STATUS,
-    SET_CURRENT_ACTIVITY} from '../actions'
+    SET_CURRENT_ACTIVITY,
+    RESET_CART} from '../actions'
 import logger from 'redux-logger'
 
 const initialState = {
@@ -69,7 +70,12 @@ const reducer = (state={...initialState},action) =>{
             return{
                 ...state,
                 currentActivity: action.payload
-            }        
+            } 
+        case RESET_CART:
+            return{
+                ...state,
+                cart: state.cart.length = 0
+            }          
         default:
             return {...state}
     }

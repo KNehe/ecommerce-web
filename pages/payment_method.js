@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/layout/layout";
 import braintree from 'braintree-web'
-import { SET_NAVBAR_TITLE, SET_SINGLE_ORDER } from "../state/actions";
+import { RESET_CART, SET_NAVBAR_TITLE, SET_SINGLE_ORDER } from "../state/actions";
 import { getShippingCost, getTax, sendPayPalOrder, sendStripeOrder } from "../external_api/orders";
 import { PAY_PAL, STRIPE_PAYMENT, USER_TYPE_GUEST, USER_TYPE_RESGISTERED } from '../consts/index'
 import { useRouter } from 'next/router'
@@ -13,6 +13,7 @@ import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 import ProgressIndicator from './../components/progress_indicator/progress_indicator'
 import { useDispatch, useSelector } from "react-redux";
 import { CHOOSE_PAYMENT_METHOD } from "../consts/navbar_titles";
+import { deleteCart } from "../external_api/cart";
 
 const PaymentMethod = () =>{
     
@@ -30,7 +31,7 @@ const PaymentMethod = () =>{
 
     const elements = useElements()
 
-    const { cart, ShippingDetails, userId } = state
+    const { cart, ShippingDetails, userId ,jwt} = state
     
     useEffect( ()=>{
         if(cart.length === 0){
@@ -106,8 +107,6 @@ const PaymentMethod = () =>{
             })
             
             const order = createOrderPayload(costs.tax, costs.shippingCost, costs.total, costs.totalItemPrice, PAY_PAL)
-            
-            
 
             const { result, errorMsg} = await sendPayPalOrder( order, payload.nonce)
 
@@ -116,6 +115,10 @@ const PaymentMethod = () =>{
                 setIsSendingOrder(false)
                 return setButtonDisableProp(false)
             }
+            
+            await deleteCart(userId,jwt)
+
+            dispatch({type: RESET_CART})
 
             dispatch({type: SET_SINGLE_ORDER, payload: result})
 
@@ -169,6 +172,11 @@ const PaymentMethod = () =>{
             setIsSendingOrder(false)
             return setError(errorMsg)
         }else{
+
+            await deleteCart(userId,jwt)
+
+            dispatch({type: RESET_CART})
+
             dispatch({type: SET_SINGLE_ORDER, payload: result})
 
             setButtonDisableProp(false)
