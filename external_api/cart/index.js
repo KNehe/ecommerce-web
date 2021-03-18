@@ -19,4 +19,22 @@ const saveCart = async (productId,userId,quantity,jwt) =>{
   
   }
 
-  export {saveCart}
+const getSavedCart = async (userId,jwt) =>{
+
+  let cart, errorMsg;
+    
+  try{
+    axios.defaults.headers['authorization'] = `Bearer ${jwt}`;
+
+    const response = await axios.get(`/cart/${userId}`);
+    cart = response.data.data.cart;
+
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,cart}
+
+}
+
+  export {saveCart,getSavedCart}

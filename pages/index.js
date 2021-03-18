@@ -11,9 +11,11 @@ import Pagination from '../components/pagination/pagination'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import NoProductsFound from '../components/no_products_found/no_products_found'
 import { useRouter } from 'next/router'
-import { SET_NAVBAR_TITLE } from '../state/actions'
-import { useDispatch } from 'react-redux'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../state/actions'
+import { useDispatch, useSelector } from 'react-redux'
 import { STORE } from '../consts/navbar_titles'
+import { getSavedCart } from '../external_api/cart/index'
+
 
 export default function Home({ productData:data,categoryData:categories,fetchProductError,fetchCategoryError}) {
 
@@ -40,13 +42,15 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
 
   const [error, setError] = useState('')
 
+  const state = useSelector(state => state)
+
   useEffect(()=>{
+
+    dispatch({type: SET_NAVBAR_TITLE, payload: STORE})
 
     if(fetchProductError || fetchCategoryError){
        return setError(fetchCategoryError || fetchProductError)
     }
-
-    dispatch({type: SET_NAVBAR_TITLE, payload: STORE})
 
     setCurrentCategoryIndex(0)
     setApiData({
@@ -58,8 +62,31 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
      fetchCategoryError
    }); 
     setIsLoadingProducts(false) 
-  },[])
 
+    getCart()
+  },[])
+  
+  const getCart = async () =>{
+    const {userId, jwt } = state;
+    const { cart} = await getSavedCart(userId,jwt)
+    if(cart){
+      cart.forEach(item=>{
+        if(!isProductInCart(item)){
+          dispatch({type: ADD_ITEM_TO_CART, payload: item})
+        }
+      })
+    }
+  }
+
+  const isProductInCart = (product) =>{
+    let found = false
+    state.cart.forEach(element => {
+        if(element._id === product._id){
+            found = true
+        }
+    });
+    return found;
+}
 
   const productList = apiData.products.map(product=>
 
