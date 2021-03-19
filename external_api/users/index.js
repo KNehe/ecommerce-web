@@ -71,5 +71,23 @@ const resetPassword = async (token,password) =>{
 
 }
 
+const updateName = async (newName,userId,jwt) =>{
 
-  export {isJwtValid,signIn,signUp,forgotPassword,resetPassword}
+  let result, errorMsg;
+  
+  try{
+    axios.defaults.headers['authorization'] = `Bearer ${jwt}`;
+
+    const response = await axios.patch(`/users/updatename/${userId}/`,{name:newName});
+    result = response.data.data;
+
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,result}
+
+}
+
+  export {isJwtValid,signIn,signUp,forgotPassword,resetPassword,
+          updateName}

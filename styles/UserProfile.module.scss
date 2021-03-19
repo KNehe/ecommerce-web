@@ -1,5 +1,18 @@
 @use './Shared.scss' as S;
 
+
+.btn_common{
+    background-color: #FF9800;
+    color: #fff;
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 1em 0;
+    @include S.btn_transition(background-color);
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
 .main{
     @include S.center(50%);
     height: auto;
@@ -7,11 +20,22 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        
         .profile_nest{
             border: 1px solid  grey;
             border-radius: 10px;
             padding: 2em;
             width: 100%;
+        }
+        
+        .error_message{
+            color: #fff;
+            background-color: red;
+            border-radius: 5px;
+            margin-bottom: 1em;
+            display: grid;
+            place-items: center;
+            padding: .2em 0;
         }
 
         .avatar{
@@ -36,11 +60,12 @@
             .inputANDicon{
                 display: flex;
                 justify-content: baseline;
+                
                 input{
                     width: 95%;
                     border: none;
                     border-bottom: 1px solid  grey; 
-                    padding: .8em 0;
+                    padding: .4em 0;
                     font-weight: 100; 
                               
                 }
@@ -52,6 +77,8 @@
                     margin-bottom: 2em;
                 }
                 svg{
+                    width: 1em;
+                    height: 1em;
                     color: #FF9800;
                     cursor: pointer;
                 }
@@ -59,21 +86,66 @@
         }
 
         button{
-            background-color: #FF9800;
-            color: #fff;
-            outline: none;
-            border: none;
-            width: 100%;
-            padding: 1em 0;
-            @include S.btn_transition(background-color);
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
+            @extend .btn_common;
         }
         button:hover{
             background-color: S.$btn_orange_hover_bgcolor;
         }
         
+    }
+
+    .no_profile_access_display{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 25vh;
+        .btn_signin{
+            @extend .btn_common;
+            text-align: center;
+            width: 50%;
+            margin-top: 2em;
+            padding: .5em 0;
+        }
+    }
+
+
+}
+
+.edit_sec{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 200px;
+    input{
+        width: 95%;
+        border: none;
+        border-bottom: 1px solid  grey; 
+        padding: .4em 0;
+        font-weight: 100; 
+                  
+    }
+    input:focus{
+        outline: none;
+        border-bottom: 2px solid grey;
+    }
+    button{
+        background-color: #FF9800;
+        color: #fff;
+        outline: none;
+        border: none;
+        padding: .5em 0;
+        @include S.btn_transition(background-color);
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 1em;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    button:hover{
+        background-color: S.$btn_orange_hover_bgcolor;
     }
 }
 

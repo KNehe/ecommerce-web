@@ -2,7 +2,8 @@ import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_AUTH_DETAILS,
     SET_NAVBAR_TITLE, SET_SHIPPING_DETAILS, SET_SINGLE_ORDER,
     SET_ONLY_LOGGED_IN_STATUS,
     SET_CURRENT_ACTIVITY,
-    RESET_CART} from '../../actions'
+    RESET_CART,
+    CHANGE_NAME} from '../../actions'
 
 import {HYDRATE} from 'next-redux-wrapper'
 
@@ -74,7 +75,12 @@ const reducer = (state={...initialState},action) =>{
             return{
                 ...state,
                 cart: state.cart.length = 0
-            }          
+            }
+        case CHANGE_NAME:
+            return{
+                ...state,
+                name:action.payload
+            }              
         default:
             return {...state}
     }
