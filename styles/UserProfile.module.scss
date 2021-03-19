@@ -1,0 +1,84 @@
+@use './Shared.scss' as S;
+
+.main{
+    @include S.center(50%);
+    height: auto;
+    .profile{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .profile_nest{
+            border: 1px solid  grey;
+            border-radius: 10px;
+            padding: 2em;
+            width: 100%;
+        }
+
+        .avatar{
+            background-color: #FFE0B2;
+            border-radius: 50%;
+            width: 7em;
+            height: 7em;
+            display: grid;
+            place-items: center;
+            padding: 1em;
+            margin-bottom: 2em;
+            svg{
+               width: 3em;
+               height: 3em;
+               color: #FF9800;
+            }
+        }
+
+        .input_group{
+            width: 100%;
+            font-weight: 500;
+            .inputANDicon{
+                display: flex;
+                justify-content: baseline;
+                input{
+                    width: 95%;
+                    border: none;
+                    border-bottom: 1px solid  grey; 
+                    padding: .8em 0;
+                    font-weight: 100; 
+                              
+                }
+                input:focus{
+                    outline: none;
+                    border-bottom: 2px solid grey;
+                }
+                input:first-of-type{
+                    margin-bottom: 2em;
+                }
+                svg{
+                    color: #FF9800;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        button{
+            background-color: #FF9800;
+            color: #fff;
+            outline: none;
+            border: none;
+            width: 100%;
+            padding: 1em 0;
+            @include S.btn_transition(background-color);
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: S.$btn_orange_hover_bgcolor;
+        }
+        
+    }
+}
+
+@media screen and (max-width: 768px){
+    .main{
+        @include S.center(90%)
+    }
+}
