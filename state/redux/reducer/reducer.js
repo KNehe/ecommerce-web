@@ -4,7 +4,8 @@ import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_AUTH_DETAILS,
     SET_CURRENT_ACTIVITY,
     RESET_CART,
     CHANGE_NAME,
-    CHANGE_EMAIL} from '../../actions'
+    CHANGE_EMAIL,
+    RESET_AUTH_DETAILS} from '../../actions'
 
 import {HYDRATE} from 'next-redux-wrapper'
 
@@ -86,7 +87,16 @@ const reducer = (state={...initialState},action) =>{
             return{
                 ...state,
                 email:action.payload
-            }              
+            }  
+        case RESET_AUTH_DETAILS:
+            return{
+                ...state,
+                jwt: '',
+                email: '',
+                name: '',
+                userId: '',
+                isLoggedIn: false
+            }            
         default:
             return {...state}
     }

@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/UserProfile.module.scss'
 import Layout from '../components/layout/layout'
-import { CHANGE_EMAIL, CHANGE_NAME, SET_CURRENT_ACTIVITY, SET_NAVBAR_TITLE } from '../state/actions';
+import { CHANGE_EMAIL, CHANGE_NAME, RESET_AUTH_DETAILS, SET_CURRENT_ACTIVITY, SET_NAVBAR_TITLE } from '../state/actions';
 import { USER_PROFILE } from '../consts/navbar_titles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faUser } from '@fortawesome/free-solid-svg-icons';
 import BackDrop from '../components/backdrop/backdrop'
 import Modal from '../components/modal/modal'
 import { useState } from 'react';
-import { CHANGING_EMAIL, CHANGING_NAME, VIEWING_PROFILE } from '../consts/activities';
+import { CHANGING_EMAIL, CHANGING_NAME, SIGNING_OUT, VIEWING_PROFILE } from '../consts/activities';
 import { isJwtValid, updateEmail, updateName } from '../external_api/users';
 import { useRouter} from 'next/router'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
@@ -46,6 +46,8 @@ const UserProfile = () =>{
     setJwtValidity(isValid)
 
     router.prefetch('/auth/signin')
+
+    router.prefetch('/')
 
     setError('')
 
@@ -130,15 +132,30 @@ const UserProfile = () =>{
 
     }
 
+    if(currentActivity === SIGNING_OUT){
+        setProcessing(true)
+        await router.push('/')
+        dispatch({type:RESET_AUTH_DETAILS})
+    }
+
    }
 
-   const signinBtnHandler = event =>{
+   const signinBtnHandler = async event =>{
 
     event.preventDefault()
     
     dispatch({type: SET_CURRENT_ACTIVITY,payload: VIEWING_PROFILE})
 
-    router.push('/auth/signin')
+    await router.push('/auth/signin')
+   }
+
+   const signoutBtnHandler = event =>{
+
+    event.preventDefault()
+    
+    dispatch({type: SET_CURRENT_ACTIVITY, payload: SIGNING_OUT})
+
+    setModalVisibility(true)
    }
     
 return (
@@ -153,16 +170,20 @@ return (
                         <>
                             <label htmlFor='name'>Name</label>
                             <input type='text' id='name' ref={nameInputRef} required/>
-                        </>:
+                        </>: currentActivity === CHANGING_EMAIL?
                         <>
                             <label htmlFor='email'>Email</label>
                             <input type='email' id='email' ref={emailInputRef} required/>
-                        </>
+                        </>: ''
                     }
                     <button type='submit'                            
                             disabled={isProcessing}
                     >
-                     {isProcessing ? <ProgressIndicator min={true}/>: 'Save'}
+                        {isProcessing ? 
+                            <ProgressIndicator min={true}/>:
+                            currentActivity === SIGNING_OUT ?
+                            'Confirm sign out': 'Save'
+                        }
                     </button>
                 </form>
             </div>
@@ -175,9 +196,11 @@ return (
                     
                     //Show when user isn't logged in or jwt expired
                     <div className={styles.no_profile_access_display}>
-                        {!jwtValid?
+                        {!isLoggedIn?
+                            <p> Please sign in to see profile</p>:
+                            !jwtValid ?
                             <p>Session expired. Please sign in to see profile</p>:
-                            <p>Please sign in to see profile</p>
+                            <p> Please sign in to see profile</p>
                         }
                         <div className={styles.btn_signin}
                             onClick={signinBtnHandler}
@@ -213,7 +236,7 @@ return (
                                             <FontAwesomeIcon icon={faPencilAlt} onClick={(event)=>handleIconClick(event,CHANGING_EMAIL)}/>
                                         </div>
                                     </div>
-                                <button type='button' >Sign Out</button>
+                                <button type='button' onClick={signoutBtnHandler}>Sign Out</button>
                         </div>
 
                     </div>
