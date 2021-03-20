@@ -1,0 +1,26 @@
+@use './Shared.scss' as S;
+
+
+.no_profile_access_display{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25vh;
+    .btn_signin{
+        background-color: #FF9800;
+        color: #fff;
+        outline: none;
+        border: none;
+        width: 100%;
+        padding: 1em 0;
+        @include S.btn_transition(background-color);
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        width: 50%;
+        margin-top: 2em;
+        padding: .5em 0;
+    }
+}

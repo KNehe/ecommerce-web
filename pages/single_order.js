@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Layout from "../components/layout/layout"
+import { VIEWING_ORDER_HISTORY } from "../consts/activities"
 import { SET_NAVBAR_TITLE } from "../state/actions"
 import styles from '../styles/SingleOrder.module.scss'
 
@@ -53,7 +54,12 @@ const SingleOrder = () =>{
                 <h3>Items</h3>
                 { items }
             </article>
-            <div className={styles.btn}>We'll call you shortly</div>
+            <div className={styles.btn} style={{marginBottom: '1em'}}>
+                {state.currentActivity === VIEWING_ORDER_HISTORY?
+                <p>Thanks for your support</p>:
+                <p>We'll call you shortly</p>
+                }
+            </div>
         </section>
 
 

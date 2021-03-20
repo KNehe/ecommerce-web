@@ -94,22 +94,6 @@
         
     }
 
-    .no_profile_access_display{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-top: 25vh;
-        .btn_signin{
-            @extend .btn_common;
-            text-align: center;
-            width: 50%;
-            margin-top: 2em;
-            padding: .5em 0;
-        }
-    }
-
-
 }
 
 .edit_sec{

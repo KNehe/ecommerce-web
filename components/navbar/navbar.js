@@ -34,7 +34,7 @@ const NavBar = ()=>{
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href='order-history'>
+                                    <Link href='/order_history'>
                                         <a>Order history</a>
                                     </Link>
                                 </li>

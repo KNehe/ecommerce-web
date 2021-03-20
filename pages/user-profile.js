@@ -13,6 +13,7 @@ import { CHANGING_EMAIL, CHANGING_NAME, SIGNING_OUT, VIEWING_PROFILE } from '../
 import { isJwtValid, updateEmail, updateName } from '../external_api/users';
 import { useRouter} from 'next/router'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
+import SignInRequest from "../components/signin_request/signin_request";
 
 const UserProfile = () =>{
 
@@ -195,19 +196,11 @@ return (
                 { !isLoggedIn  || !jwtValid?
                     
                     //Show when user isn't logged in or jwt expired
-                    <div className={styles.no_profile_access_display}>
-                        {!isLoggedIn?
-                            <p> Please sign in to see profile</p>:
-                            !jwtValid ?
-                            <p>Session expired. Please sign in to see profile</p>:
-                            <p> Please sign in to see profile</p>
-                        }
-                        <div className={styles.btn_signin}
-                            onClick={signinBtnHandler}
-                        >
-                            Sign in
-                        </div>
-                    </div>:
+                  <SignInRequest 
+                    isLoggedIn={isLoggedIn} 
+                    jwtValid={jwtValid} 
+                    click={signinBtnHandler}
+                   />:
 
                     <div className={styles.profile}>
                         

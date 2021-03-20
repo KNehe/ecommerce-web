@@ -39,4 +39,19 @@ const sendStripeOrder = async (stripeId, order) =>{
 
 }
 
-export {sendPayPalOrder, getTax, getShippingCost, sendStripeOrder}
+const getOrderHistory = async (userId,jwt) =>{
+    let result, errorMsg;
+
+    try{
+      axios.defaults.headers['authorization'] = `Bearer ${jwt}`;
+      const response = await axios.get(`/cart/orders/user/${userId}`);
+      result = response.data.data.orders;
+    }catch(error){
+        errorMsg = getAxiosErrorMessage(error);
+    }
+  
+    return {errorMsg,result}
+
+}
+
+export {sendPayPalOrder, getTax, getShippingCost, sendStripeOrder, getOrderHistory}

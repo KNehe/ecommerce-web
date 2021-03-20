@@ -1,4 +1,4 @@
-import { CHECKING_OUT, VIEWING_PROFILE } from '../consts/activities'
+import { CHECKING_OUT, VIEWING_ORDER_HISTORY, VIEWING_PROFILE } from '../consts/activities'
 
 const navigate = (currentActivity,router) =>{
 
@@ -8,7 +8,10 @@ const navigate = (currentActivity,router) =>{
             break;
         case VIEWING_PROFILE:
             router.push('/user-profile')
-            break;    
+            break;
+        case VIEWING_ORDER_HISTORY:
+            router.push('/order_history') 
+            break;       
         default:
             router.push('/')
             break;
