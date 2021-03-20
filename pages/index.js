@@ -44,7 +44,7 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
 
   const state = useSelector(state => state)
 
-  useEffect(()=>{
+  useEffect(async()=>{
 
     dispatch({type: SET_NAVBAR_TITLE, payload: STORE})
 
@@ -63,7 +63,7 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
    }); 
     setIsLoadingProducts(false) 
 
-    getCart()
+    await getCart()
   },[])
   
   const getCart = async () =>{
@@ -71,8 +71,8 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     const { cart} = await getSavedCart(userId,jwt)
     if(cart){
       cart.forEach(item=>{
-        if(!isProductInCart(item)){
-          dispatch({type: ADD_ITEM_TO_CART, payload: item})
+        if(!isProductInCart(item.product)){
+          dispatch({type: ADD_ITEM_TO_CART, payload: item.product})
         }
       })
     }
