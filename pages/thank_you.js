@@ -9,6 +9,7 @@ import { SET_CURRENT_ACTIVITY, SET_NAVBAR_TITLE } from "../state/actions";
 import styles from '../styles/ThankYou.module.scss'
 import { useRouter  } from "next/router";
 import { VIEWING_SINGLE_ORDER } from "../consts/activities";
+import { usePreFetchUrls } from "../utils/hooks";
 
 const ThankYou = () =>{
 
@@ -18,8 +19,8 @@ const ThankYou = () =>{
 
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: SUCCESS_ORDER})
-
-        router.prefetch('/single_order')
+        
+        usePreFetchUrls(['/single_order'],router)
     },[])
 
     const onBtnClickedHandler = async event =>{

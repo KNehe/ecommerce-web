@@ -13,7 +13,7 @@ import ProgressIndicator from '../../components/progress_indicator/progress_indi
 import { isEmailValid} from '../../utils/validators';
 import { navigate } from "../../utils/navigator_helper";
 import { CREATE_ACCOUNT } from "../../consts/navbar_titles"
-import { useAuthRedirect } from "../../utils/hooks"
+import { useAuthRedirect, usePreFetch } from "../../utils/hooks"
 
 
 const SignIn = ()=>{
@@ -28,8 +28,11 @@ const SignIn = ()=>{
 
     useEffect(()=>{
         dispatch({type:SET_NAVBAR_TITLE,payload: CREATE_ACCOUNT})
+        
+        usePreFetch(currentActivity,router)
 
         useAuthRedirect(isLoggedIn,jwt,router,setScreenLoad)
+
     },[])
 
     const [error, setError] = useState('')

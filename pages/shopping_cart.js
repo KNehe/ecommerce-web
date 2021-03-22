@@ -16,6 +16,7 @@ import { isJwtValid } from '../external_api/users';
 import { CHECKING_OUT } from '../consts/activities';
 import { SHOPPING_CART } from '../consts/navbar_titles';
 import { saveCart } from '../external_api/cart';
+import { usePreFetchUrls } from '../utils/hooks';
 
 const ShoppingCart  = () =>{
 
@@ -23,15 +24,18 @@ const ShoppingCart  = () =>{
 
     const dispatch = useDispatch()
 
+    const router = useRouter()
+
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: SHOPPING_CART})
+
+        usePreFetchUrls(['/auth/signin'],router)
     },[])
 
     const { cart } = {...state}
 
     const [isModalVisible,setModalVisibility] = useState(false)
 
-    const router = useRouter()
 
     const [isProgressIndicatorVisible, setProgressIndicatorVisibility] = useState(false)
 
@@ -120,7 +124,7 @@ const ShoppingCart  = () =>{
                        await saveCart(item._id,userId,item.quantity,jwt)
                     }
                 }
-                router.push('shipping_details')
+                router.push('/shipping_details')
             }
         }  
     }

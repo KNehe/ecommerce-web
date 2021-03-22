@@ -14,6 +14,7 @@ import { isJwtValid, updateEmail, updateName } from '../external_api/users';
 import { useRouter} from 'next/router'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import SignInRequest from "../components/signin_request/signin_request";
+import { usePreFetchUrls } from '../utils/hooks';
 
 const UserProfile = () =>{
 
@@ -46,9 +47,7 @@ const UserProfile = () =>{
 
     setJwtValidity(isValid)
 
-    router.prefetch('/auth/signin')
-
-    router.prefetch('/')
+    usePreFetchUrls(['/auth/signin','/'],router)
 
     setError('')
 

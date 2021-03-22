@@ -7,6 +7,7 @@ import { faBuilding, faCity, faHome, faMailBulk, faPhone, faUser } from '@fortaw
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { SHIPPING_DETAILS } from '../consts/navbar_titles'
+import { usePreFetchUrls } from '../utils/hooks'
 
 const ShippingDetails = () =>{
 
@@ -18,6 +19,8 @@ const ShippingDetails = () =>{
 
     useEffect(()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: SHIPPING_DETAILS})
+        
+        usePreFetchUrls(['/payment_method'],router)
     },[])
 
     const nameInputRef = useRef(null)

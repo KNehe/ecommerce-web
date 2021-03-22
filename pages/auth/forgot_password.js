@@ -12,7 +12,7 @@ import {forgotPassword  } from "../../external_api/users/index";
 import { isEmailValid} from '../../utils/validators';
 import { FORGOT_PASSWORD } from "../../consts/navbar_titles"
 import {useRouter} from 'next/router'
-import { useAuthRedirect } from "../../utils/hooks"
+import { useAuthRedirect, usePreFetch } from "../../utils/hooks"
 
 const ForgotPassword = ()=>{
 
@@ -20,12 +20,15 @@ const ForgotPassword = ()=>{
 
     const router = useRouter()
 
-    const {jwt,isLoggedIn} = useSelector(state => state)
+    const {currentActivity,jwt,isLoggedIn} = useSelector(state => state)
 
     const [loadingScreen,setScreenLoad] = useState(true)
     
     useEffect(()=>{
         dispatch({type:SET_NAVBAR_TITLE,payload: FORGOT_PASSWORD})
+
+        usePreFetch(currentActivity,router)
+        
         useAuthRedirect(isLoggedIn,jwt,router,setScreenLoad)
     },[])
 

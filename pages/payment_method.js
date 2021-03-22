@@ -14,6 +14,7 @@ import ProgressIndicator from './../components/progress_indicator/progress_indic
 import { useDispatch, useSelector } from "react-redux";
 import { CHOOSE_PAYMENT_METHOD } from "../consts/navbar_titles";
 import { deleteCart } from "../external_api/cart";
+import { usePreFetchUrls } from "../utils/hooks";
 
 const PaymentMethod = () =>{
     
@@ -32,11 +33,15 @@ const PaymentMethod = () =>{
     const elements = useElements()
 
     const { cart, ShippingDetails, userId ,jwt} = state
+
+    const [loadingScreen,setScreenLoad] = useState(true)
     
-    useEffect( ()=>{
+    useEffect( async()=>{
         if(cart.length === 0){
-            return router.push('/')
+            return await router.push('/')
         }
+        usePreFetchUrls(['/thank_you'],router)
+        setScreenLoad(false)
         dispatch({type: SET_NAVBAR_TITLE, payload: CHOOSE_PAYMENT_METHOD})
         setCostsAttached()
     },[])
@@ -197,60 +202,68 @@ const PaymentMethod = () =>{
     }
     }
 
-    return <Layout title='Payment method'>
-       <section className={styles.main}>
-        <h1>Order summary</h1>
-        <div className={styles.group}>
-            <div className={styles.row}>
-                <p>Items</p>
-                <p>${costs.totalItemPrice}</p>
-            </div>
-            <div className={styles.row}>
-                <p>Shipping</p>
-                <p>${costs.shippingCost}</p>
-            </div>
-            <div className={styles.row}>
-                <p>Tax</p>
-                <p>${costs.tax}</p>
-            </div>
-            <div className={styles.row}>
-                <p>Total</p>
-                <p>${costs.total}</p>
-            </div>
-        </div>
-        {
-            isSendingOrder?           
-            <div className={styles.progress_indicator_wrapper}>
-                <ProgressIndicator/>
-            </div>:
-            <>
-                <h2>Choose payment method</h2>
-
-            <div className={styles.form_section}>
-                <p className={styles.error_message}>
-                    {error}
-                </p>
-                <button 
-                    onClick={onPayPalButtonClickedHandler}
-                    disabled={ btnDisabled}
-                    className={styles.paypal_btn}>
-                        <FontAwesomeIcon icon={faPaypal}/>
-                        <span className={styles.txt_1}>Pay</span>Pal
-                </button>
-                <p className={styles.or}>Or</p>
-                <form onSubmit={onStripeFormSubmittedHandler}>
-                    <CardElement/>
-                    <button type='submit' disabled={btnDisabled}  className={styles.stripe_btn}>
-                    <FontAwesomeIcon icon={faCreditCard}/>  Credit or Debit card
-                    </button>
-                </form>
-        </div>
-            
-            </>
+    return (
+        <>
+        {loadingScreen?
+         <ProgressIndicator/>:
+         <Layout title='Payment method'>
+         <section className={styles.main}>
+          <h1>Order summary</h1>
+          <div className={styles.group}>
+              <div className={styles.row}>
+                  <p>Items</p>
+                  <p>${costs.totalItemPrice}</p>
+              </div>
+              <div className={styles.row}>
+                  <p>Shipping</p>
+                  <p>${costs.shippingCost}</p>
+              </div>
+              <div className={styles.row}>
+                  <p>Tax</p>
+                  <p>${costs.tax}</p>
+              </div>
+              <div className={styles.row}>
+                  <p>Total</p>
+                  <p>${costs.total}</p>
+              </div>
+          </div>
+          {
+              isSendingOrder?           
+              <div className={styles.progress_indicator_wrapper}>
+                  <ProgressIndicator/>
+              </div>:
+              <>
+                  <h2>Choose payment method</h2>
+  
+              <div className={styles.form_section}>
+                  <p className={styles.error_message}>
+                      {error}
+                  </p>
+                  <button 
+                      onClick={onPayPalButtonClickedHandler}
+                      disabled={ btnDisabled}
+                      className={styles.paypal_btn}>
+                          <FontAwesomeIcon icon={faPaypal}/>
+                          <span className={styles.txt_1}>Pay</span>Pal
+                  </button>
+                  <p className={styles.or}>Or</p>
+                  <form onSubmit={onStripeFormSubmittedHandler}>
+                      <CardElement/>
+                      <button type='submit' disabled={btnDisabled}  className={styles.stripe_btn}>
+                      <FontAwesomeIcon icon={faCreditCard}/>  Credit or Debit card
+                      </button>
+                  </form>
+          </div>
+              
+              </>
+          }
+         
+         </section>
+      </Layout>
         }
-       
-       </section>
-    </Layout>
+        </>
+    )
+   
 
 }
 
