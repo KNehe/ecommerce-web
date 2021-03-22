@@ -3,29 +3,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef,useState } from "react"
 import { useDispatch,useSelector } from "react-redux"
 import Layout from "../../components/layout/layout"
-import { SET_NAVBAR_TITLE, SET_AUTH_DETAILS,SET_ONLY_LOGGED_IN_STATUS } from "../../state/actions"
+import { SET_NAVBAR_TITLE} from "../../state/actions"
 import styles from '../../styles/Auth.module.scss'
 import Link from 'next/link'
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
-import { navigate } from "../../utils/navigator_helper";
-import { useRouter } from "next/dist/client/router"
 import { EMAIL_REQUIRED, INVALID_EMAIL } from "../../consts/errors";
 import {forgotPassword  } from "../../external_api/users/index";
 import { isEmailValid} from '../../utils/validators';
 import { FORGOT_PASSWORD } from "../../consts/navbar_titles"
+import {useRouter} from 'next/router'
+import { useAuthRedirect } from "../../utils/hooks"
 
 const ForgotPassword = ()=>{
 
     const dispatch = useDispatch()
+
+    const router = useRouter()
+
+    const {jwt,isLoggedIn} = useSelector(state => state)
+
+    const [loadingScreen,setScreenLoad] = useState(true)
     
     useEffect(()=>{
         dispatch({type:SET_NAVBAR_TITLE,payload: FORGOT_PASSWORD})
+        useAuthRedirect(isLoggedIn,jwt,router,setScreenLoad)
     },[])
-
-    
-    const router = useRouter()
-
-    const currentActivity = useSelector(state => state.currentActivity)
 
     const emailInputRef = useRef(null)
 
@@ -80,7 +82,11 @@ const ForgotPassword = ()=>{
     }
 
     return (
-        <Layout title='Forgot password'>
+        <>
+        {
+            loadingScreen?
+            <ProgressIndicator/>:
+            <Layout title='Forgot password'>
 
             <section className={styles.main}>
             {successMsg?
@@ -111,7 +117,11 @@ const ForgotPassword = ()=>{
             </section>
 
         </Layout>
-    )
+   
+        }
+        </>
+       
+   )
 }
 
 export default ForgotPassword

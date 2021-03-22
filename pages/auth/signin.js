@@ -12,8 +12,9 @@ import { isEmailValid} from '../../utils/validators';
 import { signIn } from "../../external_api/users/index"
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
 import { navigate } from "../../utils/navigator_helper";
-import { useRouter } from "next/dist/client/router"
+import { useRouter } from "next/router"
 import { WELCOME } from "../../consts/navbar_titles"
+import { useAuthRedirect } from "../../utils/hooks"
 
 const SignIn = ()=>{
 
@@ -21,11 +22,15 @@ const SignIn = ()=>{
 
     const router = useRouter()
 
-    const currentActivity = useSelector(state => state.currentActivity)
+    const {currentActivity,jwt,isLoggedIn} = useSelector(state => state)
 
-    
+    const [loadingScreen,setScreenLoad] = useState(true)
+
     useEffect(()=>{
-        dispatch({type:SET_NAVBAR_TITLE,payload: 'WELCOME'})
+        dispatch({type:SET_NAVBAR_TITLE,payload: WELCOME})
+        
+        useAuthRedirect(isLoggedIn,jwt,router,setScreenLoad)
+    
     },[])
 
     const [error, setError] = useState('')
@@ -86,33 +91,37 @@ const SignIn = ()=>{
     }
 
     return (
-        <Layout title='Sign in'>
+        <>
+            {loadingScreen ?
+            <ProgressIndicator/>:
+            <Layout title='Sign in'>
+                <section className={styles.main}>
+                    <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
+                    <form onSubmit={formSubmittedHandler}>
+                        <label htmlFor='email'>Email</label>
+                        <input type='email' id='email' ref={emailInputRef}/>
+                        <label htmlFor='password'>Password</label>
+                        <input type='password' id='password' ref={passwordInputRef}/>
+                        
+                        <div className={styles.group1}>
+                            <p>Sign in</p>
+                            <button type='submit' disabled={isSubmitBtnEnabled}>
+                                {isProcessing?
+                                    <ProgressIndicator min={true}/>:
+                                    <FontAwesomeIcon icon={faArrowRight}/>
+                                }
+                            </button>
+                        </div>
+                        <div className={styles.group2}>
+                            <Link href='/auth/signup'><p>Sign up</p></Link>
+                            <Link href='/auth/forgot_password'><p>Forgot password</p></Link>
+                        </div>
+                    </form>
+                </section>
 
-            <section className={styles.main}>
-                <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
-                <form onSubmit={formSubmittedHandler}>
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' id='email' ref={emailInputRef}/>
-                    <label htmlFor='password'>Password</label>
-                    <input type='password' id='password' ref={passwordInputRef}/>
-                    
-                    <div className={styles.group1}>
-                        <p>Sign in</p>
-                        <button type='submit' disabled={isSubmitBtnEnabled}>
-                            {isProcessing?
-                                <ProgressIndicator min={true}/>:
-                                <FontAwesomeIcon icon={faArrowRight}/>
-                            }
-                        </button>
-                    </div>
-                    <div className={styles.group2}>
-                        <Link href='/auth/signup'><p>Sign up</p></Link>
-                        <Link href='/auth/forgot_password'><p>Forgot password</p></Link>
-                    </div>
-                </form>
-            </section>
-
-        </Layout>
+            </Layout>
+            } 
+        </>     
     )
 }
 

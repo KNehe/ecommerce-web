@@ -6,13 +6,14 @@ import Layout from "../../components/layout/layout"
 import { SET_AUTH_DETAILS, SET_NAVBAR_TITLE, SET_ONLY_LOGGED_IN_STATUS } from "../../state/actions"
 import styles from '../../styles/Auth.module.scss'
 import Link from 'next/link'
-import { useRouter } from "next/dist/client/router"
+import { useRouter } from "next/router"
 import { ALL_FIELDS_ARE_REQUIRED, INVALID_EMAIL } from "../../consts/errors";
 import {signUp} from '../../external_api/users/index'
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
 import { isEmailValid} from '../../utils/validators';
 import { navigate } from "../../utils/navigator_helper";
 import { CREATE_ACCOUNT } from "../../consts/navbar_titles"
+import { useAuthRedirect } from "../../utils/hooks"
 
 
 const SignIn = ()=>{
@@ -21,10 +22,14 @@ const SignIn = ()=>{
 
     const router = useRouter()
 
-    const currentActivity = useSelector(state => state.currentActivity)
+    const {currentActivity,jwt,isLoggedIn} = useSelector(state => state)
     
+    const [loadingScreen,setScreenLoad] = useState(true)
+
     useEffect(()=>{
         dispatch({type:SET_NAVBAR_TITLE,payload: CREATE_ACCOUNT})
+
+        useAuthRedirect(isLoggedIn,jwt,router,setScreenLoad)
     },[])
 
     const [error, setError] = useState('')
@@ -86,9 +91,12 @@ const SignIn = ()=>{
 
 
     return (
-        <Layout title='Sign up'>
+        <>
+        {loadingScreen?
+            <ProgressIndicator/>:
+            <Layout title='Sign up'>
 
-            <section className={styles.main}>
+                <section className={styles.main}>
             <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
 
                 <form onSubmit={formSubmittedHandler}>
@@ -114,7 +122,9 @@ const SignIn = ()=>{
                 </form>
             </section>
 
-        </Layout>
+            </Layout>
+        }
+        </>
     )
 }
 

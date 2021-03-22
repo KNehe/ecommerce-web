@@ -1,6 +1,5 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { route } from "next/dist/next-server/server/router"
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -18,13 +17,17 @@ const ResetPassword = ({token})=>{
     const dispatch = useDispatch()
 
     const router = useRouter()
+
+    const [loadingScreen,setScreenLoad] = useState(true)
     
     useEffect(()=>{
         dispatch({type:SET_NAVBAR_TITLE,payload: RESET_PASSWORD})
         
         if(!token){
-            router.push('/')
+            return router.replace('/')
         }
+
+        setScreenLoad(false)
         
     },[])
 
@@ -83,7 +86,11 @@ const ResetPassword = ({token})=>{
     }
 
     return (
-        <Layout title='Reset password'>
+        <>
+        {
+            loadingScreen?
+            <ProgressIndicator/>:
+            <Layout title='Reset password'>
 
             <section className={styles.main}>
             {successMsg?
@@ -114,6 +121,10 @@ const ResetPassword = ({token})=>{
             </section>
 
         </Layout>
+    
+        }
+        </>
+       
     )
 }
 
