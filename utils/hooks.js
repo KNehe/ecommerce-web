@@ -43,4 +43,24 @@ const usePreFetchUrls = (urls,router) =>{
 
 }
 
-export {useAuthRedirect,usePreFetch,usePreFetchUrls}
+const useSingleOrder = (router,singleOrder,setLoading) =>{
+    if(!(Object.keys(singleOrder).length >0)){
+       router.replace('/')
+    }else{
+        setLoading(false)
+    }
+}
+
+const usePaymentMethod= (router,shippingDetails,cart,setScreenLoad) =>{
+    if( cart.length == 0 ){
+       router.replace('/')
+    }else if(!(Object.keys(shippingDetails).length > 0)){
+        router.replace('/shipping_details')
+    }else{
+        setScreenLoad(false)
+    }
+}
+
+
+export {useAuthRedirect,usePreFetch,usePreFetchUrls,
+        useSingleOrder, usePaymentMethod}

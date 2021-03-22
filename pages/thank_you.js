@@ -1,15 +1,16 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/layout/layout";
 import { SUCCESS_ORDER } from "../consts/navbar_titles";
 import { SET_CURRENT_ACTIVITY, SET_NAVBAR_TITLE } from "../state/actions";
 import styles from '../styles/ThankYou.module.scss'
 import { useRouter  } from "next/router";
 import { VIEWING_SINGLE_ORDER } from "../consts/activities";
-import { usePreFetchUrls } from "../utils/hooks";
+import { usePreFetchUrls, useSingleOrder } from "../utils/hooks";
+import ProgressIndicator from '../components/progress_indicator/progress_indicator'
+
 
 const ThankYou = () =>{
 
@@ -17,9 +18,13 @@ const ThankYou = () =>{
 
     const router = useRouter()
 
+    const singleOrder = useSelector(state =>state.singleOrder)
+
+    const [loading,setLoading] = useState(true)
+
     useEffect(()=>{
-        dispatch({type: SET_NAVBAR_TITLE, payload: SUCCESS_ORDER})
-        
+        dispatch({type: SET_NAVBAR_TITLE, payload: loading? 'Processing' : SUCCESS_ORDER })
+        useSingleOrder(router,singleOrder,setLoading)
         usePreFetchUrls(['/single_order'],router)
     },[])
 
@@ -34,11 +39,15 @@ const ThankYou = () =>{
 
     return <Layout title='Thank you'>
 
-        <section className={styles.thank_you}>
-            <FontAwesomeIcon icon={faStar}/>
-            <p>Payment made successfully</p>
+        {
+            loading?
+            <ProgressIndicator/>:
+            <section className={styles.thank_you}>
+                <FontAwesomeIcon icon={faStar}/>
+                <p>Payment made successfully</p>
                 <button onClick={onBtnClickedHandler}>View Order</button>
-        </section>
+            </section>
+        }
 
     </Layout>
 }

@@ -14,7 +14,7 @@ import ProgressIndicator from './../components/progress_indicator/progress_indic
 import { useDispatch, useSelector } from "react-redux";
 import { CHOOSE_PAYMENT_METHOD } from "../consts/navbar_titles";
 import { deleteCart } from "../external_api/cart";
-import { usePreFetchUrls } from "../utils/hooks";
+import { usePaymentMethod, usePreFetchUrls } from "../utils/hooks";
 
 const PaymentMethod = () =>{
     
@@ -36,12 +36,9 @@ const PaymentMethod = () =>{
 
     const [loadingScreen,setScreenLoad] = useState(true)
     
-    useEffect( async()=>{
-        if(cart.length === 0){
-            return await router.push('/')
-        }
+    useEffect( ()=>{
+        usePaymentMethod(router,ShippingDetails,cart,setScreenLoad)
         usePreFetchUrls(['/thank_you'],router)
-        setScreenLoad(false)
         dispatch({type: SET_NAVBAR_TITLE, payload: CHOOSE_PAYMENT_METHOD})
         setCostsAttached()
     },[])
