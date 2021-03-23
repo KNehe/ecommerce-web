@@ -21,17 +21,19 @@ const SingleOrder = () =>{
     
     const [loading,setLoading] = useState(true)
 
-    useEffect(()=>{
+    const [items,setItems] = useState([])
+
+    useEffect(async()=>{
         dispatch({type: SET_NAVBAR_TITLE, payload: `Order ${state.singleOrder._id ? state.singleOrder._id :''}` })
         
         useSingleOrder(router,singleOrder,setLoading)
 
-        populateItemList()
+       await populateItemList()
     },[])
 
-    let items = [];
 
-    const populateItemList = ()=>{
+    const populateItemList = async()=>{
+        let array = []
         for(let i = 0 ; i < singleOrder?.cartItems?.length; i ++){
             const item = <div key={i}>
                 <p>Name: {singleOrder?.cartItems[i]?.product?.name}</p>
@@ -39,8 +41,10 @@ const SingleOrder = () =>{
                 <p>Quantity: {singleOrder?.cartItems[i]?.quantity}</p>
                 <p className={styles.line}></p>
             </div>
-            items.push(item)
+            array.push(item)
         }
+        setItems(array)
+
     }
 
     return( <Layout title='Order details'>
