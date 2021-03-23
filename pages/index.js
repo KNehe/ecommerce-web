@@ -15,6 +15,8 @@ import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../st
 import { useDispatch, useSelector } from 'react-redux'
 import { STORE } from '../consts/navbar_titles'
 import { getSavedCart } from '../external_api/cart/index'
+import CategoryShimmer from '../components/shimmers/category'
+import ProductCardShimmer from '../components/shimmers/productcard'
 
 
 export default function Home({ productData:data,categoryData:categories,fetchProductError,fetchCategoryError}) {
@@ -32,7 +34,7 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
 
   const [ currentPageIndex , setcurrentPageIndex] = useState(1)
 
-  const [ isLoadingProducts, setIsLoadingProducts] = useState(true)
+  const [ isLoadingProducts, setIsLoadingProducts] = useState(false)
 
   const router = useRouter();
 
@@ -43,6 +45,8 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
   const [error, setError] = useState('')
 
   const state = useSelector(state => state)
+
+  const [initLoad, setInitLoad] = useState(true)
 
   useEffect(async()=>{
 
@@ -61,9 +65,10 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
      fetchProductError,
      fetchCategoryError
    }); 
-    setIsLoadingProducts(false) 
 
     await getCart()
+    
+    setInitLoad(false)
   },[])
   
   const getCart = async () =>{
@@ -223,14 +228,17 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
           </section>
 
           <section className={styles.category_list}>
-            {catergoryList}
+            {initLoad? <CategoryShimmer/>: catergoryList}
           </section>
           
           { isLoadingProducts ?
             <ProgressIndicator/>:
             <>
               <section className={styles.product_list}>
-                { apiData.products.length === 0 ? 
+                {
+                  initLoad ? <ProductCardShimmer/>:
+                
+                apiData.products.length === 0 ? 
                   <NoProductsFound/> : productList
                 }
               </section>
