@@ -114,12 +114,12 @@ const OrderHistory =() =>{
                         <div className={styles.error_message}>
                             <p>{error}</p>
                         </div>:
-                        orderList ? orderList :
-                        <>
+                        orderList.length > 0 ? orderList :
+                        <div className={styles.className}>
                             <p>No orders found</p>
                             <p>This could be because you haven't bought any items</p>
                             <p>Or you bought items as a guest</p>
-                        </>
+                        </div>
                      }                    
                     </>
                       }
