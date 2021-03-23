@@ -11,7 +11,6 @@ import { VIEWING_SINGLE_ORDER } from "../consts/activities";
 import { usePreFetchUrls, useSingleOrder } from "../utils/hooks";
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 
-
 const ThankYou = () =>{
 
     const dispatch = useDispatch()
@@ -23,8 +22,8 @@ const ThankYou = () =>{
     const [loading,setLoading] = useState(true)
 
     useEffect(()=>{
-        dispatch({type: SET_NAVBAR_TITLE, payload: loading? 'Processing' : SUCCESS_ORDER })
         useSingleOrder(router,singleOrder,setLoading)
+        dispatch({type: SET_NAVBAR_TITLE, payload: SUCCESS_ORDER })
         usePreFetchUrls(['/single_order'],router)
     },[])
 
@@ -34,7 +33,7 @@ const ThankYou = () =>{
 
         dispatch({type: SET_CURRENT_ACTIVITY, payload: VIEWING_SINGLE_ORDER})
 
-        await router.push('/single_order')
+        await router.replace('/single_order')
     }
 
     return <Layout title='Thank you'>

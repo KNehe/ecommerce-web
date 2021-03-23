@@ -126,7 +126,7 @@ const PaymentMethod = () =>{
 
             setButtonDisableProp(false)
 
-            await router.push('/thank_you')
+            await router.replace('/thank_you')
 
         }catch(error){
             console.error("Error", error)
@@ -183,7 +183,7 @@ const PaymentMethod = () =>{
 
             setButtonDisableProp(false)
     
-            await router.push('/thank_you')
+            await router.replace('/thank_you')
         }
         
        }else{
