@@ -73,7 +73,7 @@ const PaymentMethod = () =>{
             totalItemPrice: totalItemPrice.toString(),
             userId,
             paymentMethod,
-            userType: userId != null ? USER_TYPE_RESGISTERED : USER_TYPE_GUEST,
+            userType: !userId? USER_TYPE_GUEST  : USER_TYPE_RESGISTERED,
             dateOrdered: Date.now(),
             cartItems: transformedCart
         

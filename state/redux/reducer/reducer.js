@@ -13,7 +13,7 @@ const initialState = {
     cart:[],
     navBarTitle: '',
     ShippingDetails: {},
-    userId: '',
+    userId: null,
     singleOrder:{},
     isLoggedIn: false,
     jwt: '',
@@ -94,7 +94,7 @@ const reducer = (state={...initialState},action) =>{
                 jwt: '',
                 email: '',
                 name: '',
-                userId: '',
+                userId: null,
                 isLoggedIn: false
             }            
         default:
