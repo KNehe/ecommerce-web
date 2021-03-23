@@ -76,7 +76,7 @@ const reducer = (state={...initialState},action) =>{
         case RESET_CART:
             return{
                 ...state,
-                cart: state.cart.length = 0
+                cart: []
             }
         case CHANGE_NAME:
             return{
