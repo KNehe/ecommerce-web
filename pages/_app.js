@@ -7,11 +7,12 @@ import { useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 
+const stripePromise = loadStripe('pk_test_nGOzznmrg37WxxREAMw8jNHj00ukQ2wSgi')
+
 const  NeheEcommerceApp = ({ Component, pageProps }) => {
 
-    const stripePromise = loadStripe('pk_test_nGOzznmrg37WxxREAMw8jNHj00ukQ2wSgi')
-
     const store = useStore()
+    
 
     return (
       <PersistGate persistor={ store.__persistor} loading={<ProgressIndicator/>}>

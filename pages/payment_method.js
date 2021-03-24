@@ -145,26 +145,30 @@ const PaymentMethod = () =>{
     const onStripeFormSubmittedHandler = async event =>{
         event.preventDefault()
 
-        setIsSendingOrder(true)
-
         setButtonDisableProp(true)
 
         setError('')
 
-
     try{
+       
+       const cardElement = elements.getElement(CardElement)
 
        const {error, paymentMethod } = await stripe.createPaymentMethod({
            type: 'card',
-           card: elements.getElement(CardElement)
+           card: cardElement
        })
 
-       console.log('payemnt method err: ', error,paymentMethod)
+       if(error){
+        setButtonDisableProp(false)
+        setIsSendingOrder(false)
+        return setError( error.message || 'An error occurred')
+       }
+        
+       setIsSendingOrder(true)
 
-       if(!error){
         const { id } = paymentMethod;
         
-        const order = createOrderPayload(costs.tax, costs.shippingCost, costs.total, costs.totalItemPrice, STRIPE_PAYMENT)
+        const order = createOrderPayload(costs.tax, costs.shippingCost, costs.total, costs.totalItemPrice, STRIPE_PAYMENT) 
         
 
         const { errorMsg, result} = await sendStripeOrder(id,order)
@@ -173,30 +177,24 @@ const PaymentMethod = () =>{
             setButtonDisableProp(false)
             setIsSendingOrder(false)
             return setError(errorMsg)
-        }else{
-
-            await deleteCart(userId,jwt)
-
-            dispatch({type: RESET_CART})
-
-            dispatch({type: SET_SINGLE_ORDER, payload: result})
-
-            setButtonDisableProp(false)
-    
-            await router.replace('/thank_you')
         }
+
+        await deleteCart(userId,jwt)
+
+        dispatch({type: RESET_CART})
+
+        dispatch({type: SET_SINGLE_ORDER, payload: result})
+
+        setButtonDisableProp(false)
+    
+        await router.replace('/thank_you')
         
-       }else{
-        setButtonDisableProp(false)
-        setIsSendingOrder(false)
-        return setError( error.message || 'An error occurred')
-       }
-    }catch(err){
-        setButtonDisableProp(false)
-        setIsSendingOrder(false)
-        console.log("gen err:", err)
-        return setError( err.message || 'An error occurred')
-    }
+        }catch(err){
+            setButtonDisableProp(false)
+            setIsSendingOrder(false)
+            console.log("TRY CATCH err:", err)
+            return setError( err.message || 'An error occurred')
+        }
     }
 
     return (
