@@ -4,12 +4,12 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import Link  from 'next/link'
 import { SET_NAVBAR_TITLE } from '../../state/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { PRODUCT_DETAILS, SHOPPING_CART, STORE } from '../../consts/navbar_titles'
+import { ORDER, PRODUCT_DETAILS, SHOPPING_CART, STORE } from '../../consts/navbar_titles'
 
 
 const NavBar = ()=>{
 
-    const { cart,navBarTitle,name,isLoggedIn } = useSelector(state => state)
+    const { cart,navBarTitle,name,isLoggedIn, singleOrder } = useSelector(state => state)
 
     const dispatch =  useDispatch()
 
@@ -20,7 +20,7 @@ const NavBar = ()=>{
     return <nav 
                 className={styles.navbar}
             >
-                <p>{navBarTitle}</p>
+                <p style={{ wordBreak: navBarTitle == ORDER + " " +singleOrder?._id? 'break-all':''}}>{navBarTitle}</p>
 
                 <section className={styles.left_section}>
 
