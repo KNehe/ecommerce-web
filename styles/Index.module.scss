@@ -1,0 +1,95 @@
+@use './Shared.scss' as S;
+
+$light_gray: #E0E0E0;
+$fifty_percent: 50%;
+$fitty_pixels: 50px;
+
+
+.main{
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+
+    .search_field{
+        background-color: $light_gray;
+        padding: .4em;
+        border-radius: $fitty_pixels;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 10%;
+        box-shadow: 0 1px 2px rgba(0,0,0,.2), -1px -1px 3px  rgba(0,0,0,.2);
+
+        svg{
+            width: 1.5em;
+            padding-right: .2em;
+            color: rgb(160, 137, 137);
+        }
+    }
+    .search_field >input{
+        width: calc(100% - 4em); 
+        background-color: $light_gray;
+        border: none;      
+    }
+    .search_field >input:focus{
+        outline: none;     
+    }
+
+    .title{
+        h1{
+            font-size: 2em;
+            margin: 1em 0;
+            text-transform: capitalize;
+        }
+    }
+
+    .category_list{
+        display: flex;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding: .5em 0;
+        position: relative;
+        &::-webkit-scrollbar{
+            display: none;
+        }
+    }
+
+    .product_list{
+        margin-top: 2em;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+        gap: 1em;
+        text-transform: capitalize;
+        grid-auto-rows: minmax(auto,1fr);
+ 
+    }
+    .pagination_section{
+        margin: 2em 0;
+        display: flex;
+    }
+
+}
+
+.error_message{
+    @include S.error_msg;
+}
+
+@media screen and (max-width: 768px){
+
+    .main{
+        width: 90%;
+        .title{
+            h1{
+                font-size: 1.7em !important;
+            }
+        }
+        .product_list{
+            grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+            gap: .6em;
+        }
+        
+    }
+    
+
+}

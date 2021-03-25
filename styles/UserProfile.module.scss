@@ -1,0 +1,140 @@
+@use './Shared.scss' as S;
+
+
+.btn_common{
+    background-color: #FF9800;
+    color: #fff;
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 1em 0;
+    @include S.btn_transition(background-color);
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.main{
+    @include S.center(50%);
+    height: auto;
+    .profile{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .profile_nest{
+            border: 2px solid  rgba(204, 197, 197,.5);
+            border-radius: 10px;
+            padding: 2em;
+            width: 100%;
+        }
+        
+        .error_message{
+            color: #fff;
+            background-color: red;
+            border-radius: 5px;
+            margin-bottom: 1em;
+            display: grid;
+            place-items: center;
+            padding: .2em 0;
+        }
+
+        .avatar{
+            background-color: #FFE0B2;
+            border-radius: 50%;
+            width: 7em;
+            height: 7em;
+            display: grid;
+            place-items: center;
+            padding: 1em;
+            margin-bottom: 2em;
+            svg{
+               width: 3em;
+               height: 3em;
+               color: #FF9800;
+            }
+        }
+
+        .input_group{
+            width: 100%;
+            font-weight: 500;
+            .inputANDicon{
+                display: flex;
+                justify-content: baseline;
+                
+                input{
+                    width: 95%;
+                    border: none;
+                    border-bottom: 2px solid  rgba(204, 197, 197,.5);
+                    padding: .4em 0;
+                    font-weight: 100; 
+                              
+                }
+                input:focus{
+                    outline: none;
+                    border-bottom: 2px solid grey;
+                }
+                input:first-of-type{
+                    margin-bottom: 2em;
+                }
+                svg{
+                    width: 1em;
+                    height: 1em;
+                    color: #FF9800;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        button{
+            @extend .btn_common;
+        }
+        button:hover{
+            background-color: S.$btn_orange_hover_bgcolor;
+        }
+        
+    }
+
+}
+
+.edit_sec{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 300px;
+    input{
+        width: 95%;
+        border: none;
+        border-bottom: 1px solid  grey; 
+        padding: .4em 0;
+        font-weight: 100; 
+                  
+    }
+    input:focus{
+        outline: none;
+        border-bottom: 2px solid grey;
+    }
+    button{
+        background-color: #FF9800;
+        color: #fff;
+        outline: none;
+        border: none;
+        padding: 1em 0;
+        @include S.btn_transition(background-color);
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 1em;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    button:hover{
+        background-color: S.$btn_orange_hover_bgcolor;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .main{
+        @include S.center(90%)
+    }
+}

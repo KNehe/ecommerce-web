@@ -1,0 +1,96 @@
+@use './Shared.scss' as S;
+
+.shipping_form_sec{
+    @include S.center(50%);  
+    display: flex;
+    justify-content: center;
+    color: rgba(0,0,0,.7);
+    display: flex;
+    flex-direction: column;
+     
+    .errorMessage_common{
+        width: 65%;
+        align-self: center;
+        justify-self: center;
+        color: #fff;
+        text-align: center;
+        padding: .5em 0;
+        font-weight: 700;
+    }
+    .errorMessage{
+        background-color: red;
+        @extend .errorMessage_common       
+    }
+    .errorNoMessage{
+        background-color: #fff;
+        height: 2.32em;
+        @extend .errorMessage_common       
+    }
+
+    form{
+        width: 65%;
+        padding: .5em 1.2em;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        @include S.light_shadow;
+        align-self: center;
+        justify-self: center;
+
+        .input_group{
+            display: flex;
+            margin-bottom: 1.2em;
+            svg{
+                width: 1.2em;
+            }
+            div{
+                display: flex;
+                flex-direction: column;
+                margin-left: 1em;
+                width: 100%;
+                input{
+                    border-top: none;
+                    border-left: none;
+                    border-right: none;
+                }
+                input:focus{
+                    outline: none;
+                    border-bottom-color: orange;
+                }
+            }
+        }
+        input[type=submit]{
+            background-color: S.$btn-orange_bgcolor;
+            width: 100%;
+            border: none;
+            padding: .8em 0;
+            border-radius: 50px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 900;
+            @include S.btn_transition(background-color);
+            @include S.light_shadow;
+        }
+        input[type=submit]:hover{
+            background-color: S.$btn_orange_hover_bgcolor;
+        }
+        input[type=submit]:focus{
+            outline: none;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+   .shipping_form_sec{  
+    @include S.center(90%);      
+   }      
+}
+
+@media screen and (max-width: 600px){
+    .shipping_form_sec > form{
+        width: 90%;
+    }
+    .errorMessage_common{
+        width: 90%;
+    }
+}
+

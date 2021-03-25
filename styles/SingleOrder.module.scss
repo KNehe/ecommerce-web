@@ -1,0 +1,32 @@
+@use './Shared.scss' as S;
+
+.single_order{
+    @include S.center(50%);
+    article{
+        h1,h2,h3{
+            font-size: 1.2em;
+        }
+        p{
+            padding-bottom: .3em;
+        }
+        .line{
+            border-bottom:  2px solid grey;
+        }
+    }
+    .btn{
+        margin-top: 1em;
+        text-align: center;
+        padding: .8em 0;
+        background-color: S.$btn-orange_bgcolor;
+        color: #fff;
+        border-radius: 15px;
+        font-weight: 700;
+        @include S.light_shadow;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .single_order{
+        @include S.center(90%)
+    }
+}

@@ -1,0 +1,31 @@
+@mixin btn_transition($element){
+    transition: $element .4s ease-in;
+}
+
+$btn_increase_and_decrease_hover_bgcolor: #f0c27e;
+
+$btn_orange_hover_bgcolor: #c57b0c;
+
+$btn-orange_bgcolor: #F19C0B;
+
+
+@mixin center($width) {
+    margin-left: auto;
+    margin-right: auto; 
+    width:$width;   
+}
+
+@mixin light_shadow {
+    box-shadow: 0 2px 3px rgba(0,0,0,.2), -1px -1px 0px  rgba(0,0,0,0);    
+}
+
+@mixin error_msg{
+    text-align: center;
+    margin-top: 25vh;
+    background-color: rgba(0,0,0,.1);
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding: 1em 0;
+    border-radius: 5px;
+}

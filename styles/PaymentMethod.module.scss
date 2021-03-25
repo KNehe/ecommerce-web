@@ -1,0 +1,86 @@
+@use './Shared.scss' as S;
+
+.main{
+  @include S.center(50%);
+  h1,h2{
+      text-align:center;
+      margin-top: 1em;
+  }
+  .group{
+      margin-bottom: 1em;
+      border-top: 3px solid #83878a;
+
+    .row{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 3px solid #83878a;
+        padding: 1em 0;
+
+        p:first-of-type{
+            font-size: 1em;
+            font-weight: 500;
+        }
+    }
+  }
+  .form_section{
+    width: 100%;
+    .error_message{
+        background-color: red;
+        color: #fff;
+        text-align: center;
+        margin-bottom: .5em;
+        border-radius: 10px;
+    }
+    h2{
+        text-align: center;
+    }
+    .btn{
+        width: 100%;
+        border: none;
+        padding: .5em 0;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1em;
+        @include S.light_shadow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg{
+            width: .8em;
+            margin-right: .3em;
+        }
+    }
+    .paypal_btn{
+        background-color: #F7BE38;
+        color: #0097D8;
+        @extend .btn;
+        .txt_1{
+            color: #001387;
+        }
+    }
+    .or{
+        text-align: center;
+        font-weight: bold;
+        margin: 2em 0;
+    }
+    form{
+        .stripe_btn{
+            background-color: #2B2D2E;
+            @extend .btn;
+            color: #fff;
+            margin-top: .8em;
+        }
+    }
+  }
+  .progress_indicator_wrapper{
+      position: relative;
+  }
+}
+
+@media screen and (max-width: 768px){
+.main{
+    @include S.center(70%);
+
+}
+
+}

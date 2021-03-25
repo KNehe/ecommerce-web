@@ -1,0 +1,25 @@
+@use './Shared.scss' as S;
+
+.Modal{
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,25%);
+    @include S.light_shadow;
+    padding: 1em;
+    border-radius: 5px;
+    height: auto;
+    width: auto;
+    z-index: 100;
+    animation: move-modal .8s  forwards;
+}
+
+@keyframes move-modal{
+    from{
+       top:60%
+    }
+    to{
+       top: 25%;
+    }
+
+}
