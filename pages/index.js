@@ -48,6 +48,8 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
 
   const [initLoad, setInitLoad] = useState(true)
 
+  const [paginationOn,setPaginationOn] = useState(true)
+
   useEffect(async()=>{
 
     dispatch({type: SET_NAVBAR_TITLE, payload: STORE})
@@ -110,8 +112,13 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     event.preventDefault();
 
     setCurrentCategoryIndex(index)
-
+    
     setIsLoadingProducts(true)
+    
+    //turn off pagination
+    //because data received from api doesn't include pagination details
+    //only products are returned
+    setPaginationOn(false)
 
     let products, error;
 
@@ -119,6 +126,11 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
       const {data, errorMessage} = await getProducts();
       products = data.products;
       error = errorMessage;
+      setcurrentPageIndex(1)
+      //turn on pagination
+      //because all products are fetched 
+      //and therefore initial pagination logic used on first page load can be applied
+      setPaginationOn(true)
     }else{
       const {data, errorMessage} = await getProductsByCategory(apiData.categories[index].category);
       products = data.result;
@@ -145,11 +157,22 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
       />
   );
 
-  const onPageIndicatorClickedHandler = (index,event)=>{
+  const onPageIndicatorClickedHandler = async(index,event)=>{
     
     event.preventDefault();
+    
+    setIsLoadingProducts(true)
 
     setcurrentPageIndex(index);
+
+    const {data,errorMessage} = await getProducts(index,20)
+
+    if(errorMessage) return setError(error)
+
+    setApiData({  ...apiData, products: data.products,})
+
+    setIsLoadingProducts(false)
+
   }
 
   let paginationIndicatorList = [];
@@ -171,6 +194,12 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     event.preventDefault();
 
     setIsLoadingProducts(true);
+    
+    //turn off pagination
+    //because data received from api doesn't include pagination details
+    setPaginationOn(false)
+
+    setCurrentCategoryIndex(0)
 
     const searchKey = event.target.value.trim();
 
@@ -184,6 +213,11 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
       const {data, errorMessage} = await getProducts();
       products = data.products;
       error = errorMessage;
+      //turn on pagination
+      //because all products are fetched 
+      //and therefore initial pagination logic used on first page load
+      //can be applied
+      setPaginationOn(true)
     }
 
     if(!error){
@@ -234,7 +268,7 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
           { isLoadingProducts ?
             <ProgressIndicator/>:
             <>
-              <section className={styles.product_list}>
+              <section className={styles.product_list} style={{marginBottom:'1em'}}>
                 {
                   initLoad ? <ProductCardShimmer/>:
                 
@@ -242,13 +276,14 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
                   <NoProductsFound/> : productList
                 }
               </section>
-
+              {paginationOn?
               <section className={styles.pagination_section}>
     
                 { apiData.products.length === 0  || apiData.pages === 1 ?
                   '' : paginationIndicatorList
                 }
-              </section>
+              </section>:''
+              }
             </>
 
           }
