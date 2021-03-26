@@ -140,7 +140,7 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     if(!error){
        setApiData({...apiData,products})
     }else{
-      //TODO set error
+      setError(true)
     }
 
     setIsLoadingProducts(false)
@@ -167,9 +167,11 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
 
     const {data,errorMessage} = await getProducts(index,20)
 
-    if(errorMessage) return setError(error)
-
-    setApiData({  ...apiData, products: data.products,})
+    if(errorMessage){
+      setError(errorMessage)
+    }else{
+      setApiData({  ...apiData, products: data.products,})
+    }
 
     setIsLoadingProducts(false)
 
@@ -223,7 +225,7 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     if(!error){
       setApiData({...apiData,products})
    }else{
-     //TODO set error
+      setError(error)
    }
 
     setIsLoadingProducts(false);
