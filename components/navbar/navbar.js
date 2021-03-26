@@ -19,8 +19,12 @@ const NavBar = ()=>{
 
     return <nav 
                 className={styles.navbar}
-            >
-                <p style={{ wordBreak: navBarTitle == ORDER + " " +singleOrder?._id? 'break-all':''}}>{navBarTitle}</p>
+            >   
+            <Link href='/'>
+                <p style={{ wordBreak: navBarTitle == ORDER + " " +singleOrder?._id? 'break-all':'', cursor:'pointer'}}>
+                    {navBarTitle}
+                </p>
+            </Link>
 
                 <section className={styles.left_section}>
 
@@ -36,6 +40,16 @@ const NavBar = ()=>{
                                 <li>
                                     <Link href='/order_history'>
                                         <a>Order history</a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href='/'>
+                                        <a>Product list</a>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href='/shopping_cart'>
+                                        <a>Cart</a>
                                     </Link>
                                 </li>
                             </ul>
