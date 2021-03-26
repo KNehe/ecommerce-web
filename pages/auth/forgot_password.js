@@ -99,7 +99,7 @@ const ForgotPassword = ()=>{
            <>
                 <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
                 <form onSubmit={formSubmittedHandler}>
-                    <label for='email'>Enter email to reset password</label>
+                    <label htmlFor='email'>Enter email to reset password</label>
                     <input type='email' id='email' ref={emailInputRef}/>
                     
                     <div className={styles.group1}>
