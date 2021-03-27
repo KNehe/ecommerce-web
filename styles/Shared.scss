@@ -29,3 +29,28 @@ $btn-orange_bgcolor: #F19C0B;
     padding: 1em 0;
     border-radius: 5px;
 }
+
+@mixin anime_card {
+    animation: animate_card 1s ease-in forwards;
+}
+
+@mixin anime_img {
+    animation: animate_img 1s ease-in forwards;    
+}
+
+@keyframes animate_card{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes animate_img{
+    from{
+        opacity: .4;
+    }
+    to{
+        opacity: 1;
+    }
+}

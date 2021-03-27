@@ -2,6 +2,8 @@
 
 .main{
     @include S.center(50%);
+    @include S.anime_card;
+
     .error_message{
         text-align: center;
         background-color: red;

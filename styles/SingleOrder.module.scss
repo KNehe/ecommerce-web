@@ -2,6 +2,8 @@
 
 .single_order{
     @include S.center(50%);
+    @include S.anime_card;
+
     article{
         h1,h2,h3{
             font-size: 1.2em;

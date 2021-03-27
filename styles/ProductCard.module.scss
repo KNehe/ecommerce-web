@@ -1,12 +1,17 @@
+@use './Shared.scss' as S;
+
 .product_list_card{
     background-color: #E0E0E0;
     box-shadow: 0 2px 4px rgba(0,0,0,.3), -1px -1px 4px  rgba(0,0,0,.2);
     cursor: pointer; 
-    
+    height: 20vh;
+    @include S.anime_card;
+
     img{
         width: 100%;
         height: 80%;
         display: block;
+        @include S.anime_img;
     }
     .content{
         height: 20%;
@@ -23,6 +28,7 @@
     }
    
 }
+
 
 @media screen and (max-width: 768px){
 
