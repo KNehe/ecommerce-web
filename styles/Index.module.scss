@@ -9,30 +9,38 @@ $fitty_pixels: 50px;
       margin-left: auto;
       margin-right: auto;
       width: 50%;
+      user-select: none;
 
     .search_field{
         background-color: $light_gray;
-        padding: .4em;
+        padding: .3em;
         border-radius: $fitty_pixels;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         top: 10%;
         box-shadow: 0 1px 2px rgba(0,0,0,.2), -1px -1px 3px  rgba(0,0,0,.2);
+        
+        form{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            input{
+                width: calc(100% - 1.9em); 
+                background-color: $light_gray;
+                border: none;  
+            }
+            input:focus{
+                outline: none;
 
-        svg{
-            width: 1.5em;
-            padding-right: .2em;
-            color: rgb(160, 137, 137);
+            } 
+            svg{
+                width: 1.5em;
+                color: rgb(160, 137, 137);
+            }       
         }
-    }
-    .search_field >input{
-        width: calc(100% - 4em); 
-        background-color: $light_gray;
-        border: none;      
-    }
-    .search_field >input:focus{
-        outline: none;     
+        .search_icon_wrapper{
+            cursor: pointer;
+        }
+
+        
     }
 
     .title{

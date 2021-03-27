@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getProducts, getProductsByCategory, getProductsByNameOrCategory} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
@@ -49,6 +49,8 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
   const [initLoad, setInitLoad] = useState(true)
 
   const [paginationOn,setPaginationOn] = useState(true)
+
+  const searchInputRef = useRef(null)
 
   useEffect(async()=>{
 
@@ -195,39 +197,25 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
 
     event.preventDefault();
 
+    const searchKey = searchInputRef?.current?.value;
+    
+    if(!searchKey) return
+
     setIsLoadingProducts(true);
     
     //turn off pagination
     //because data received from api doesn't include pagination details
     setPaginationOn(false)
 
-    setCurrentCategoryIndex(0)
-
-    const searchKey = event.target.value.trim();
-
-    let products, error;
-
-    if(searchKey){
-      const { data, errorMessage} = await getProductsByNameOrCategory(searchKey);
-      products = data;
-      error = errorMessage;      
-    }else{
-      const {data, errorMessage} = await getProducts();
-      products = data.products;
-      error = errorMessage;
-      //turn on pagination
-      //because all products are fetched 
-      //and therefore initial pagination logic used on first page load
-      //can be applied
-      setPaginationOn(true)
-    }
-
-    if(!error){
-      setApiData({...apiData,products})
+    setCurrentCategoryIndex('')
+    
+    const { data, errorMessage} = await getProductsByNameOrCategory(searchKey);      
+    
+    if(!errorMessage){
+      setApiData({...apiData,products:data})
    }else{
-      setError(error)
+      setError(errorMessage)
    }
-
     setIsLoadingProducts(false);
   }
    
@@ -248,16 +236,20 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
         { !isLoadingNextPage ?
           <section className={styles.main}>
 
-          <section className={styles.search_field}>
-            <FontAwesomeIcon icon={faSearch}/>
-            <input 
-              type='text' 
-              name='search' 
-              id='search' 
-              placeholder='Search by product name or category'
-              onChange={searchInputController}
-            />
-          </section>
+            <section className={styles.search_field}>
+              <form onSubmit={searchInputController}>
+                <input 
+                  type='text' 
+                  name='search' 
+                  id='search' 
+                  placeholder='Search by product name or category'
+                  ref={searchInputRef}
+                />
+                <div className={styles.search_icon_wrapper} onClick={searchInputController}>
+                  <FontAwesomeIcon icon={faSearch} />
+                </div>
+              </form>
+            </section>
 
           <section className={styles.title}>
             <h1>Get the best products</h1>
