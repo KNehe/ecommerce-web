@@ -106,5 +106,19 @@ const updateEmail = async (newEmail,userId,jwt) =>{
   return {errorMsg,result}
 }
 
+const googleAuth = async(name, email,appSecret) =>{
+  let result, errorMsg;
+
+  try{
+    const response = await axios.post(`/users/google/frontendsucess/${appSecret}`,{name,email});
+    result = response.data.data;
+
+  }catch(error){
+      errorMsg = getAxiosErrorMessage(error);
+  }
+
+  return {errorMsg,result}
+}
+
 export {isJwtValid,signIn,signUp,forgotPassword,resetPassword,
-          updateName, updateEmail}
+          updateName, updateEmail, googleAuth}

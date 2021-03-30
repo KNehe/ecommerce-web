@@ -9,14 +9,16 @@ import Link from 'next/link'
 import { useState } from "react"
 import { ALL_FIELDS_ARE_REQUIRED, INVALID_EMAIL } from "../../consts/errors";
 import { isEmailValid} from '../../utils/validators';
-import { signIn } from "../../external_api/users/index"
+import { googleAuth, signIn } from "../../external_api/users/index"
 import ProgressIndicator from '../../components/progress_indicator/progress_indicator'
 import { navigate } from "../../utils/navigator_helper";
 import { useRouter } from "next/router"
 import { WELCOME } from "../../consts/navbar_titles"
 import { useAuthRedirect, usePreFetch } from "../../utils/hooks"
+import GoogleLogin from "react-google-login"
 
-const SignIn = ()=>{
+
+const SignIn = ({appSecret})=>{
 
     const dispatch = useDispatch()
 
@@ -91,6 +93,63 @@ const SignIn = ()=>{
             return false;
         }
     }
+    
+    const onGoogleLoginFailure = (res) =>{
+        let error = res.error == 'popup_closed_by_user'? 'Pop up closed' : res.error
+        if(res){
+            setError(error)
+            setSubmitBtnEnabledState(false)
+            return 
+        }
+    }
+    
+    const  refreshTokenSetup = (response) =>{
+        //timin to renew access token
+        const refreshTiming = (response.tokenObj.expires_in || 3600 -5 * 60) * 1000
+        const refreshToken = async () =>{
+            const newAuthResponse = await response.reloadAuthResponse();
+            refreshTiming = (newAuthResponse.expires_in || 3660 -5 * 60) * 1000
+console.log('new auth token', newAuthResponse.id_token)
+            //setup the other timer after the first time
+            setTimeout(refreshToken,refreshTiming)
+        }
+        //setup first refresh timer
+        setTimeout(refreshToken,refreshTiming)
+    }
+
+    const onGoogleLoginSuccess = async (response) =>  {
+
+        setSubmitBtnEnabledState(true)
+
+        setError('')
+
+        refreshTokenSetup(response)
+
+        const name = response?.profileObj?.name
+        const email = response?.profileObj?.email
+
+        if(!name || !email){
+           return setError('An error occurred')
+        }
+        
+        setScreenLoad(true)
+
+        const {errorMsg,result} = await googleAuth(name,email,appSecret)
+        
+        if(errorMsg){
+            setError(errorMsg)
+            setSubmitBtnEnabledState(false)
+            setScreenLoad(false)
+            return 
+        }
+
+        dispatch({type: SET_AUTH_DETAILS, payload: result})
+
+        dispatch({type: SET_ONLY_LOGGED_IN_STATUS, payload: true})
+
+        navigate(currentActivity,router)
+
+    } 
 
     return (
         <>
@@ -99,6 +158,19 @@ const SignIn = ()=>{
             <Layout title='Sign in'>
                 <section className={styles.main}>
                     <div className={error? styles.error:styles.noerror}>{error?error:''}</div>
+                   <GoogleLogin
+                    clientId='40283411941-pogp16dkoh4cf683vafpj7029pobqe3d.apps.googleusercontent.com'
+                    buttonText='Login With Google'
+                    onSuccess={onGoogleLoginSuccess}
+                    onFailure={onGoogleLoginFailure}
+                    cookiePolicy={'single_host_origin'}
+                    disabled={isSubmitBtnEnabled}
+                    style={{ marginBottom:'10em', borderRadius:'20px'}} 
+                    className={styles.google_btn}                   
+                   />
+                   
+                   <p style={{textAlign:'center', marginBottom:'1.5em'}}>OR</p>
+
                     <form onSubmit={formSubmittedHandler}>
                         <label htmlFor='email'>Email</label>
                         <input type='email' id='email' ref={emailInputRef}/>
@@ -128,3 +200,10 @@ const SignIn = ()=>{
 }
 
 export default SignIn
+
+export async function getStaticProps(){
+    const appSecret = process.env.NEHE_APP_SECRET;
+    return {
+        props:{ appSecret }
+    }
+}
