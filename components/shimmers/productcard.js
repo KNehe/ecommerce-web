@@ -5,7 +5,7 @@ const ProductCardShimmer = () =>{
     let divs = []
 
     for(let i = 0 ; i < 16; i++){
-      const div = <div className={styles.product_shimmer}></div>
+      const div = <div key={i} className={styles.product_shimmer}></div>
       divs.push(div)
     }
 

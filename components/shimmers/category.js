@@ -5,7 +5,7 @@ const CategoryShimmer = () =>{
     let divs = []
 
     for(let i = 0 ; i < 13; i++){
-      const div = <div className={styles.category_shimmer}></div>
+      const div = <div key={i} className={styles.category_shimmer}></div>
       divs.push(div)
     }
 
