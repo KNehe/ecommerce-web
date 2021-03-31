@@ -86,6 +86,8 @@ $fitty_pixels: 50px;
             &::-webkit-scrollbar{
                 display: none;
             }
+            scrollbar-width: none; /* firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
         }
     }
 
