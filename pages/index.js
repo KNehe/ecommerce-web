@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getProducts, getProductsByCategory, getProductsByNameOrCategory} from '../external_api/products/index'
 import Layout from '../components/layout/layout'
 import styles from './../styles/Index.module.scss'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ProductCard from '../components/product_card/product_card'
 import { getCategories } from '../external_api/categories/index'
@@ -51,6 +51,8 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
   const [paginationOn,setPaginationOn] = useState(true)
 
   const searchInputRef = useRef(null)
+
+  const categoryListRef = useRef(null)
 
   useEffect(async()=>{
 
@@ -227,6 +229,17 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     setIsLoadingNextPage(true)
     await router.push(`products/${id}`)    
   }
+
+  const onChevronLeftClickedHandler = () =>{
+    const div = categoryListRef.current;
+    div.scrollLeft -= 20
+  }
+
+  const onChevronRightClickedHandler = () =>{
+    const div = categoryListRef.current;
+    const scrollLeft = div.scrollLeft += 20
+    //const len = div.offsetWidth + scrollLeft;
+  }
  
   return (
     <Layout title='Product list'>
@@ -254,9 +267,16 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
           <section className={styles.title}>
             <h1>Get the best products</h1>
           </section>
-
-          <section className={styles.category_list}>
-            {initLoad? <CategoryShimmer/>: catergoryList}
+          <section className={styles.category_group}>
+            <div className={styles.chevron} onClick={onChevronLeftClickedHandler}>
+              <FontAwesomeIcon icon={faChevronLeft}/>
+            </div>
+            <section className={styles.category_list} ref={categoryListRef}>
+              {initLoad? <CategoryShimmer/>:catergoryList}
+            </section>
+            <div className={styles.chevron} onClick={onChevronRightClickedHandler}>
+              <FontAwesomeIcon icon={faChevronRight}/>
+            </div>
           </section>
           
           { isLoadingProducts ?
