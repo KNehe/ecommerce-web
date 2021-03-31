@@ -59,7 +59,7 @@ $fitty_pixels: 50px;
             border-radius: 50%;
             @include S.btn_transition(background-color);
             svg{
-                color:  rgba(0,0,0,.2);
+                color:  rgba(0,0,0,.4);
             }
         }
         .chevron:hover, .chevron:active,.chevron:focus{

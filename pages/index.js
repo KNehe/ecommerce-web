@@ -11,7 +11,7 @@ import Pagination from '../components/pagination/pagination'
 import ProgressIndicator from '../components/progress_indicator/progress_indicator'
 import NoProductsFound from '../components/no_products_found/no_products_found'
 import { useRouter } from 'next/router'
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, SET_NAVBAR_TITLE } from '../state/actions'
+import { ADD_ITEM_TO_CART, SET_NAVBAR_TITLE } from '../state/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { STORE } from '../consts/navbar_titles'
 import { getSavedCart } from '../external_api/cart/index'
@@ -230,15 +230,26 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
     await router.push(`products/${id}`)    
   }
 
+  const [chevronVisible,setChevronVisible] = useState({left:false,right:true})
+
   const onChevronLeftClickedHandler = () =>{
-    const div = categoryListRef.current;
-    div.scrollLeft -= 20
+    categoryListRef.current.scrollLeft -= 30 
   }
 
   const onChevronRightClickedHandler = () =>{
-    const div = categoryListRef.current;
-    const scrollLeft = div.scrollLeft += 20
-    //const len = div.offsetWidth + scrollLeft;
+   categoryListRef.current.scrollLeft += 30
+   
+  }
+
+  const onCategoryListScrolledHandler = () =>{
+    const div = categoryListRef.current 
+
+    if((div.offsetWidth + div.scrollLeft) >= div.scrollWidth){
+      setChevronVisible({left:true,right:false})
+    }
+    if(div.scrollLeft <= 0){
+      setChevronVisible({left:false,right:true})
+    }
   }
  
   return (
@@ -267,16 +278,27 @@ export default function Home({ productData:data,categoryData:categories,fetchPro
           <section className={styles.title}>
             <h1>Get the best products</h1>
           </section>
+
           <section className={styles.category_group}>
-            <div className={styles.chevron} onClick={onChevronLeftClickedHandler}>
-              <FontAwesomeIcon icon={faChevronLeft}/>
-            </div>
-            <section className={styles.category_list} ref={categoryListRef}>
+            {chevronVisible.left? 
+              <div className={styles.chevron} onClick={onChevronLeftClickedHandler}>
+                <FontAwesomeIcon icon={faChevronLeft}/>
+              </div>:
+              ''
+            }
+            <section 
+              className={styles.category_list} 
+              ref={categoryListRef}
+              onScroll={onCategoryListScrolledHandler}
+            >
               {initLoad? <CategoryShimmer/>:catergoryList}
             </section>
-            <div className={styles.chevron} onClick={onChevronRightClickedHandler}>
-              <FontAwesomeIcon icon={faChevronRight}/>
-            </div>
+            {chevronVisible.right? 
+              <div className={styles.chevron} onClick={onChevronRightClickedHandler}>
+                <FontAwesomeIcon icon={faChevronRight}/>
+              </div>:
+               ''
+            }
           </section>
           
           { isLoadingProducts ?
