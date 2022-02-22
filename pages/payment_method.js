@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CHOOSE_PAYMENT_METHOD } from "../consts/navbar_titles";
 import { deleteCart } from "../external_api/cart";
 import { usePaymentMethod, usePreFetchUrls } from "../utils/hooks";
+import { LOAD_STRIPE_ELEMENT_ERROR } from '../utils/errors'
 
 const PaymentMethod = () =>{
     
@@ -192,8 +193,15 @@ const PaymentMethod = () =>{
         }catch(err){
             setButtonDisableProp(false)
             setIsSendingOrder(false)
-            console.log("TRY CATCH err:", err)
-            return setError( err.message || 'An error occurred')
+            if (err.name === 'IntegrationError'){
+                // Create a delay to allow stripe card element to fully render
+                // to avoid error when user clicks a not fully rendered button
+                setTimeout(()=>{
+                    console.log('')
+                }, 600)
+                return
+            }
+            return setError('An error occurred')
         }
     }
 
